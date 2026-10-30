@@ -1,0 +1,12 @@
+\setlength{\tabcolsep}{4pt}\begin{tabular}{lcccccc}
+\toprule
+Method / partition & Final & Best & Gap vs C. & Rounds & Client acc. & Comm. \\
+ & acc. & acc. & & to 90\% & mean/std/min & (MB) \\
+\midrule
+IID & 0.885 & 0.886 & +0.004 & 3 & 0.885 / 0.000 / 0.885 & 337.3 \\
+Dirichlet $\alpha=0.5$ & 0.855 & 0.862 & +0.034 & 3 & 0.855 / 0.000 / 0.855 & 337.3 \\
+Dirichlet $\alpha=0.1$ & 0.831 & 0.831 & +0.058 & 10 & 0.814 / 0.027 / 0.780 & 337.3 \\
+Label skew (2 classes/client) & 0.612 & 0.707 & +0.277 & 4 & 0.612 / 0.329 / 0.035 & 337.3 \\
+Centralized (no federation) & 0.889 & 0.897 & +0.000 & -- & -- & 37.6 \\
+\bottomrule
+\end{tabular}

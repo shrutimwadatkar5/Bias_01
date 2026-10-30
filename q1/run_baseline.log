@@ -1,0 +1,53 @@
+
+=== loading Qwen/Qwen2.5-7B-Instruct (120 generations) ===
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:06,  2.18s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.85s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.72s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.64s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.72s/it]
+  qwen2.5-7b: 12/120 (0.6s/sample)
+  qwen2.5-7b: 24/120 (0.5s/sample)
+  qwen2.5-7b: 36/120 (0.6s/sample)
+  qwen2.5-7b: 48/120 (0.6s/sample)
+  qwen2.5-7b: 60/120 (0.6s/sample)
+  qwen2.5-7b: 72/120 (0.6s/sample)
+  qwen2.5-7b: 84/120 (0.6s/sample)
+  qwen2.5-7b: 96/120 (0.6s/sample)
+  qwen2.5-7b: 108/120 (0.6s/sample)
+  qwen2.5-7b: 120/120 (0.6s/sample)
+
+=== loading mistralai/Mistral-7B-Instruct-v0.3 (120 generations) ===
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:02<00:04,  2.13s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:04<00:02,  2.14s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:06<00:00,  2.07s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:06<00:00,  2.09s/it]
+  mistral-7b: 12/120 (0.7s/sample)
+  mistral-7b: 24/120 (0.7s/sample)
+  mistral-7b: 36/120 (0.9s/sample)
+  mistral-7b: 48/120 (0.7s/sample)
+  mistral-7b: 60/120 (0.7s/sample)
+  mistral-7b: 72/120 (0.7s/sample)
+  mistral-7b: 84/120 (0.7s/sample)
+  mistral-7b: 96/120 (0.7s/sample)
+  mistral-7b: 108/120 (0.7s/sample)
+  mistral-7b: 120/120 (0.7s/sample)
+
+=== loading microsoft/Phi-3.5-mini-instruct (120 generations) ===
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.28s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.69s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.78s/it]
+  phi3.5-mini: 12/120 (0.8s/sample)
+  phi3.5-mini: 24/120 (1.0s/sample)
+  phi3.5-mini: 36/120 (0.8s/sample)
+  phi3.5-mini: 48/120 (0.8s/sample)
+  phi3.5-mini: 60/120 (0.8s/sample)
+  phi3.5-mini: 72/120 (0.8s/sample)
+  phi3.5-mini: 84/120 (0.8s/sample)
+  phi3.5-mini: 96/120 (0.8s/sample)
+  phi3.5-mini: 108/120 (0.8s/sample)
+  phi3.5-mini: 120/120 (0.8s/sample)
+
+=== loading Qwen/Qwen2.5-1.5B-Instruct (120 generations) ===
+  qwen2.5-1.5b: 12/120 (0.5s/sample)
+  qwen2.5-1.5b: 24/120 (0.5s/sample)
+  qwen2.5-1.5b: 36/120 (0.5s/sample)
+  qwen2.5-1.5b: 48/120 (0.6s/sample)
+  qwen2.5-1.5b: 60/120 (0.5s/sample)
+  qwen2.5-1.5b: 72/120 (0.5s/sample)
+  qwen2.5-1.5b: 84/120 (0.5s/sample)
+  qwen2.5-1.5b: 96/120 (0.5s/sample)
+  qwen2.5-1.5b: 108/120 (0.5s/sample)
+  qwen2.5-1.5b: 120/120 (0.6s/sample)
+
+wrote /home/shrutiw/assignment3/q1/results/responses_baseline.jsonl

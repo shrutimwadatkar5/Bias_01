@@ -1,0 +1,1050 @@
+\documentclass[11pt,a4paper]{article}
+
+% --------------------------------------------------------------------------------------
+% Packages
+% --------------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{microtype}
+\usepackage[round]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\graphicspath{{../q1/figures/}{../q2/figures/}{../q3/figures/}}
+\captionsetup{font=small,labelfont=bf}
+\setlist{itemsep=1pt,topsep=2pt}
+\setlength{\parskip}{2pt}
+\renewcommand{\arraystretch}{1.05}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize RAI-FM (DSE428/DSE628) --- Assignment 3}
+\rhead{\footnotesize \thepage}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+
+\newcommand{\eps}{\varepsilon}
+\newcommand{\ie}{i.e.}
+\newcommand{\eg}{e.g.}
+\newcommand{\df}[1]{\textbf{#1}}
+
+% --------------------------------------------------------------------------------------
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{2.2cm}
+{\Large\bfseries Indian Institute of Science Education and Research Bhopal\par}
+\vspace{0.6cm}
+{\large RAI-FM (DSE428/DSE628)\par}
+\vspace{1.6cm}
+{\huge\bfseries Assignment 3\par}
+\vspace{0.8cm}
+{\Large Bias Auditing of Foundation Models,\\ Federated Averaging, and\\ Differentially Private CNN Training\par}
+\vspace{2.0cm}
+\begin{tabular}{rl}
+Name: & \rule{6cm}{0.4pt} \\[6pt]
+Roll number: & \rule{6cm}{0.4pt} \\[6pt]
+Date: & 30 October 2026 \\
+\end{tabular}
+\vfill
+{\small All experiments were run on a single NVIDIA A100--40\,GB GPU.
+Code, prompts, responses, annotations and result tables accompany this report.}
+\end{titlepage}
+
+% --------------------------------------------------------------------------------------
+\begin{abstract}
+\noindent
+This report answers the three questions of Assignment~3 with fully reproducible
+experiments. For Question~1 we design 20 counterfactual audit items covering ten
+dimensions of potential bias --- including Global South representation and two
+dimensions on caste, religion and religious accommodation --- and evaluate four open-weight instruction-tuned language
+models with three independent samples per item (480 responses). A deterministic
+annotation pipeline records refusal, sentiment, favourability, specificity, length and
+curated stereotype/agency/accommodation lexicons, and a pooled-standard-deviation
+composite quantifies disparity on a single scale. We find mean composite disparities of
+0.28--0.52 pooled standard deviations, increasing as model size decreases within the
+Qwen2.5 family, but the effect is concentrated in response \emph{substance} (length,
+specificity, favourability of decisions) rather than in sentiment: signed sentiment
+differences are indistinguishable from zero and surface stereotype and refusal rates are
+essentially nil. Only 7 of 20 pre-specified directional hypotheses are supported per
+model, and several large effects run opposite to the expected stereotype direction.
+Two inference-time mitigations (a fairness system prompt and a counterfactual
+self-audit rewrite) do not reduce disparity reliably; one model becomes measurably
+worse. For Question~2 we implement FedAvg from scratch for a 0.42M-parameter CNN on a
+balanced 12{,}000/2{,}000 Fashion-MNIST subset with five clients. Under an IID partition
+FedAvg reaches 0.885 test accuracy against 0.889 for centralized training (0.4-point
+gap), while Dirichlet($\alpha{=}0.1$) and a two-class-per-client label skew widen the gap
+to 5.8 and 27.8 points and produce strongly uneven per-client accuracy. For Question~3
+we implement DP-SGD with per-example gradients, clipping and calibrated Gaussian noise,
+and audit it with loss/confidence/entropy threshold attacks and a four-shadow-model
+logistic attack. At $\sigma{=}0.8$ ($\eps{=}6.5$ RDP, $\delta{=}10^{-5}$) accuracy is
+0.812 at $C{=}1$ and 0.748 at $C{=}5$; at $\sigma{=}1.2$ it falls to 0.795 and 0.636.
+Membership-inference AUC drops from 0.560 for the non-private baseline (0.579 for a
+deliberately overfit baseline) to 0.500--0.518 for all DP configurations. We discuss what
+these numbers do and do not establish, including the limits of small-scale auditing and
+of empirical privacy evaluation.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% ======================================================================================
+\section{Scope, environment and reproducibility}
+% ======================================================================================
+
+All code is pure Python (PyTorch, Hugging Face \texttt{transformers}, NumPy, pandas,
+SciPy, Matplotlib) and was executed on the departmental \texttt{bionlp} server with one
+A100--40\,GB GPU (CUDA 12, PyTorch 2.x, Python 3.11, conda environment \texttt{a3}).
+Each question has its own directory with the scripts, a \texttt{results/} directory of
+CSV/JSON artefacts and a \texttt{figures/} directory. The run is deterministic given the
+fixed seeds recorded in the source files (Q1 sampling seeds 1000--1002, data/training
+seed 42). Model revisions are recorded with every generated response. Table~\ref{tab:files}
+lists the main artefacts.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}p{1.5cm}X@{}}
+\toprule
+Question & Scripts and main outputs \\
+\midrule
+Q1 & \texttt{q1\_run.py} (generation), \texttt{q1\_score.py} (annotation),
+\texttt{q1\_analyze.py} (statistics, figures), \texttt{q1\_mitigate.py} (I1/I2);
+\texttt{prompts.json}, \texttt{responses.jsonl}, \texttt{scores.csv},
+\texttt{deltas\_item\_level.csv}, \texttt{stats.json}.\\
+Q2 & \texttt{q2\_fedavg.py}; \texttt{fedavg\_metrics.json}, \texttt{curves.csv},
+\texttt{client\_acc.csv}.\\
+Q3 & \texttt{q3\_dpsgd.py}, \texttt{q3\_extras.py}, \texttt{q3\_finalize.py};
+\texttt{dp\_runs.csv}, \texttt{mia.csv}, \texttt{dp\_curves.csv}.\\
+\bottomrule
+\end{tabularx}
+\caption{Code and data artefacts submitted with the report. Every table and figure in
+this document is generated from the CSV/JSON files, not typed by hand.}
+\label{tab:files}
+\end{table}
+
+% ======================================================================================
+\section{Question 1: Bias audit of foundation models}
+% ======================================================================================
+
+\subsection{Research questions and pre-specified hypotheses}
+
+The audit asks four questions, each tied to a pre-specified directional hypothesis in
+\texttt{prompts.json}:
+
+\begin{enumerate}[label=\textbf{RQ\arabic*.}]
+\item Do models describe, recommend to, and assess otherwise identical people and places
+      differently when a single demographic, cultural, regional or contextual attribute
+      is changed?
+\item Are the differences uniform across dimensions, or concentrated in particular
+      kinds of request (allocational advice, competence assessment, accommodation
+      decisions, cultural planning)?
+\item Does the direction of the difference follow common stereotypes, or is it
+      heterogeneous and sometimes compensatory?
+\item Can cheap inference-time interventions reduce the measured disparity without
+      degrading answer quality?
+\end{enumerate}
+
+For each of the 20 items we state the expected direction (\eg{} fewer named local
+employers for a candidate in Bhopal than in Austin) and the symmetric-response
+expectation. Stating the direction in advance is important: it prevents post-hoc
+selection of whichever difference happens to be largest.
+
+\subsection{Related work and novelty}
+
+Table~\ref{tab:related} positions the design against widely used bias benchmarks. The
+comparison is deliberately specific: we do not claim that any individual prompt is
+globally novel, only that the \emph{combination} of design choices differs from published
+protocols.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{tabular}{@{}p{2.7cm}p{3.3cm}p{3.1cm}p{5.2cm}@{}}
+\toprule
+Protocol & What is varied & What is scored & Difference from this audit \\
+\midrule
+BBQ \citep{parrish2022bbq} & Nine US-centred social dimensions, ambiguous vs.\
+disambiguated context & Multiple-choice answer accuracy & Closed-form QA; no open-ended
+advice, no Global South or caste/religion dimensions. \\
+BOLD \citep{dhamala2021bold} & Occupation/identity sentence prefixes & Sentiment, regard,
+toxicity of free continuation & No counterfactual pairs and no decision outcomes; prompts
+are short prefixes. \\
+StereoSet \citep{nadeem2021stereoset} & Stereotype vs.\ anti-stereotype vs.\ unrelated
+continuations & Preference likelihood & Fixed stereotype direction; measures association,
+not allocational behaviour. \\
+CrowS-Pairs \citep{nangia2020crowspairs} & One stereotyped attribute per sentence pair &
+Pseudo-log-likelihood preference & Masked/filled sentence pairs; not instruction-following
+models producing plans and ratings. \\
+WinoBias \citep{zhao2018winobias} & Gender in occupational coreference & Coreference
+resolution & Narrow linguistic task; no socioeconomic, regional or religious content. \\
+HolisticBias \citep{smith2022holisticbias} & 600+ identity descriptors in dialogue &
+Offensiveness and empathy & Conversational responses; no matched decision request or
+composite disparity. \\
+SeeGULL \citep{jha2023seegull} & Multilingual stereotype lexicons & Stereotype
+presence across languages & Lexicon-based stereotype measurement only; our results show
+why this is insufficient. \\
+Caste-bias study \citep{khandelwal2023casteist} & Indian caste vs.\ US race names & Masked-LM
+and generation disparities & Closest prior work on caste; it does not pair caste with
+allocational advice or accommodation decisions across ten dimensions. \\
+\bottomrule
+\end{tabular}
+\caption{Positioning against prior bias-evaluation protocols.}
+\label{tab:related}
+\end{table}
+
+The novelty of the present design is fivefold. \textbf{(i)~Decision-level
+counterfactuals.} Items ask for concrete allocations (five named employers, five funding
+programmes with cheque sizes, a 1--10 hiring score, a manager's reply to an
+accommodation request), so a disparity has a direct deployment analogue.
+\textbf{(ii)~Bidirectional, pre-specified hypotheses.} Each item fixes the expected sign
+before generation; we therefore detect both stereotype-consistent and compensatory
+(reverse) disparities instead of assuming that the historically disadvantaged group must
+receive worse treatment. \textbf{(iii)~Coverage of under-benchmarked contexts.} Two
+dimensions concern Indian caste/religion signalling and religious accommodation, and two
+concern Global South regional representation; these are not covered by the US-centric
+benchmarks above. \textbf{(iv)~A common metric scale.} Indicators as different as
+sentiment (0--1), word count and specificity are normalised by their pooled standard
+deviation, producing a composite ``disparity $z$'' that can be compared across models
+and dimensions. \textbf{(v)~Explicit null results.} We report that surface stereotype
+lexicons and refusals are near zero, which is itself a finding: toxicity-style audits
+would have declared these models unbiased.
+
+\subsection{Design of the 20 audit items}
+
+The 20 items form ten dimensions with two items each (Appendix~\ref{app:prompts} lists
+every template and both attribute values). Each item is instantiated twice, with only
+the attribute changed:
+
+\[
+\text{prompt}_A = T(\text{attr}_A), \qquad \text{prompt}_B = T(\text{attr}_B).
+\]
+
+The dimensions are: regional representation (Global South); gender and professional
+roles; socioeconomic status; language and code-switching; cultural assumptions;
+disability representation; caste and religion signalling (India); age; nationality and
+migration; religious accommodation. Items were designed so that neither variant is
+obviously ``correct'': the request is realistic, the two attributes are matched on
+plausibility, and the expected response is concrete enough to score.
+
+\textbf{Why pairs rather than single prompts.} A single prompt cannot separate a model's
+general style from an attribute effect. Pairing removes prompt-level confounds (topic,
+length, task difficulty) because both conditions share the entire template. Three
+independent samples per condition estimate decoding noise, which is substantial at
+temperature 0.7 (the same item can change length by tens of words between seeds).
+
+\subsection{Models, access and inference settings}
+
+Table~\ref{tab:models} documents the four models. All are open-weight
+instruction-tuned checkpoints loaded from the Hugging Face cache; no proprietary API was
+used, so the exact weights and revisions are reproducible. The 1.5B Qwen model is a
+scale probe within the same family as the 7B model, not a fourth independent family.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{llll}
+\toprule
+Short name & Hugging Face identifier & Parameters & Role \\
+\midrule
+Qwen2.5-7B & \texttt{Qwen/Qwen2.5-7B-Instruct} & 7.6B & primary model \\
+Mistral-7B & \texttt{mistralai/Mistral-7B-Instruct-v0.3} & 7.2B & independent family \\
+Phi-3.5-mini & \texttt{microsoft/Phi-3.5-mini-instruct} & 3.8B & small strong model \\
+Qwen2.5-1.5B & \texttt{Qwen/Qwen2.5-1.5B-Instruct} & 1.5B & scale probe \\
+\bottomrule
+\end{tabular}
+\caption{Models audited. Access: Hugging Face Hub, \texttt{transformers} chat template,
+float16, \texttt{device\_map="cuda"}. Inference: temperature 0.7, top-$p$ 0.9, top-$k$ 50,
+maximum 260 new tokens, no system prompt in the baseline, three seeds (1000--1002).
+Evaluation date: 30 October 2026.}
+\label{tab:models}
+\end{table}
+
+Each response record stores the model identifier, resolved commit hash, item and variant,
+seed, decoding parameters, wall-clock time and the full text. This makes the audit
+re-runnable and lets a reader recompute every statistic from the released JSONL.
+
+\subsection{Annotation pipeline}
+
+\texttt{q1\_score.py} applies the same deterministic annotator to every response. It
+produces five families of indicators:
+
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{Refusal}: whether the model declines, deflects or states it cannot help,
+      detected with a curated phrase list.
+\item \textbf{Sentiment}: mean sentence-level $P(\text{positive})$ from a fixed
+      off-the-shelf DistilBERT SST-2 classifier, plus the polarity of the final sentence
+      (the ``bottom line'').
+\item \textbf{Favourability}: an item-specific parser that extracts the scalar the item
+      asks for --- a 1--10 or 0--100 rating, a yes/no decision, a referral or feasibility
+      label, an approval/denial of a request. Higher means more favourable to the person
+      or place described.
+\item \textbf{Specificity}: list items, named entities, numbers and concrete resources
+      per 100 words.
+\item \textbf{Curated lexicons}: stereotype/generalisation phrases, agency and communion
+      words, accommodation, respect, condescension, discouragement, deficit, othering and
+      risk language, each normalised per 100 words.
+\end{enumerate}
+
+The classifier was chosen because it is small, fixed and English-trained, matching the
+English or transliterated-Hindi responses; it is applied identically to all conditions,
+so any classifier bias is shared. Every lexicon is visible in the source file. The
+annotator is transparent but shallow: it cannot recognise sarcasm or implicit
+condescension that uses none of the listed phrases. We therefore treat it as one
+imperfect instrument and cross-check the main conclusions against the item-level
+favourability and length measures, which are parser-based and independent of the
+sentiment model.
+
+\textbf{Composite disparity index.} For response $r$ on item $i$, variant $v$ and seed
+$s$, let $\Delta_{i,m} = \bar{x}_{i,B,m} - \bar{x}_{i,A,m}$ be the seed-averaged
+difference for indicator $m$. The composite is
+\[
+z_i \;=\; \frac{1}{|\mathcal{M}_i|}\sum_{m\in\mathcal{M}_i}
+        \frac{|\Delta_{i,m}|}{\hat{\sigma}_m},
+\]
+where $\hat{\sigma}_m$ is the pooled standard deviation of indicator $m$ over all
+baseline responses and $\mathcal{M}_i$ is the set of indicators defined for item $i$.
+Thus $z=1$ means an average difference of one pooled standard deviation across the
+available indicators. The index uses absolute values because a signed average cancels
+when a model is favourable to one group on some items and to the other on others; the
+signed deltas are analysed separately.
+
+\subsection{Statistical analysis}
+
+The design is paired at the item level. For each model and indicator we compute the 20
+item-level deltas (seed-averaged) and report:
+\begin{itemize}
+\item a cluster bootstrap over items (5{,}000 resamples) for the 95\% confidence interval
+      of the mean delta;
+\item a two-sided Wilcoxon signed-rank test on the 20 item deltas, with Holm correction
+      across the seven composite indicators;
+\item a Friedman test across the four models on item-level composite $z$, with pairwise
+      Wilcoxon tests and Holm correction;
+\item the fraction of items whose delta sign matches the pre-specified direction, and the
+      fraction whose sign is stable across all three seeds;
+\item sign consistency across seeds (the proportion of item--seed triples that agree with
+      the majority sign).
+\end{itemize}
+
+With 20 items the minimum achievable two-sided Wilcoxon $p$-value is about $2\times
+10^{-6}$, but power for small effects is limited; this is a fundamental constraint of
+small audits and is discussed in Section~\ref{sec:q1limits}. All tests are reported,
+including non-significant ones, rather than selecting a metric after inspection.
+
+\subsection{Results}
+
+\paragraph{Model-level disparity.} Table~\ref{tab:q1models} and Figure~\ref{fig:heatmap}
+summarise the audit. Mean composite disparity is 0.283 for Qwen2.5-7B, 0.348 for
+Mistral-7B, 0.405 for Phi-3.5-mini and 0.517 for Qwen2.5-1.5B. In the Qwen2.5 family the
+1.5B model is roughly 1.8 times as disparate as the 7B model; this is the clearest
+single pattern in the study, although the paired difference is only suggestive after
+correction (median item difference $-0.164$, raw $p=0.0296$, Holm $p=0.177$).
+
+\begin{table}[htbp]
+\centering
+\small
+\input{tables/tab_q1_models.tex}
+\caption{Model-level audit summary. Disparity $z$ is the mean of the 20 item-level
+composite scores; mean $|\Delta s|$ is the mean absolute sentiment difference on the
+0--1 probability scale; repeat consistency is the share of item--seed comparisons that
+agree in sign with the majority; refusal rate is the share of baseline responses that
+decline. ``Largest dimension'' is the dimension with the highest mean $z$ for that
+model.}
+\label{tab:q1models}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{fig1_dimension_model_heatmap.png}
+\caption{Composite disparity $z$ by dimension and model. Rows are the ten dimensions,
+columns the four models. Darker cells indicate larger normalised differences between
+the two counterfactual conditions. Language/code-switching and religious accommodation
+are the two hottest rows; socioeconomic status is dominated by the 1.5B model.}
+\label{fig:heatmap}
+\end{figure}
+
+\paragraph{Dimension structure.} Disparities are not uniform
+(Table~\ref{tab:q1dims}). The largest average effects are religious accommodation
+(0.602), language/code-switching (0.578) and socioeconomic status (0.459). The smallest
+are gender and professional roles (0.162) and regional representation (0.278). This
+ordering matters: gender is the most heavily benchmarked dimension and is also the one
+where these models look comparatively even-handed, whereas accommodation and
+language-mixing decisions --- rarely covered by benchmarks --- show the largest gaps.
+
+\begin{table}[htbp]
+\centering
+\small
+\input{tables/tab_q1_dims.tex}
+\caption{Mean composite disparity $z$ for each dimension and model. The final column is
+the unweighted mean over the four models. Values are computed from seed-averaged
+item-level deltas.}
+\label{tab:q1dims}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{fig2_item_forest.png}
+\caption{Item-level mean sentiment deltas with 95\% item-bootstrap confidence intervals.
+The intervals mostly straddle zero and the signs differ across items: pooled signed
+sentiment is not a useful bias statistic here. The absolute magnitudes, which enter the
+composite index, are non-zero.}
+\label{fig:forest}
+\end{figure}
+
+\paragraph{Signed sentiment is null; substance is not.} Mean absolute sentiment
+differences are 0.071--0.093, but signed differences are indistinguishable from zero for
+every model (all Holm-adjusted $p=1.0$; Figure~\ref{fig:forest}). This is not a
+contradiction: the sign of the difference varies across items, so the mean cancels. The
+disparity lives in \emph{what} the model provides --- how many words, how many concrete
+recommendations, whether a request is approved --- rather than in uniformly warmer or
+colder language. An audit that only measured sentiment would have concluded that these
+models are unbiased.
+
+\paragraph{Directive hypotheses are often reversed.} Exactly 7 of 20 directional
+hypotheses are supported for each model (Table~\ref{tab:q1hyp}). The equality across
+models is coincidental, but the low rate is not: 29 of the 80 model--item deltas are
+exactly zero (the favourability parser found no explicit decision) and 3 are undefined,
+leaving 48 informative deltas, of which 28 (58\%) follow the pre-specified direction ---
+consistent with chance (two-sided binomial $p\approx0.31$). Several of the largest effects
+run \emph{against} the conventional stereotype. For example, Phi-3.5-mini approves a
+recurring Friday-prayer break but declines the identical request framed as a gym session
+as the quote below shows; Mistral-7B does the reverse. This is why the design fixes the
+hypothesis direction in advance and reports reverse disparities separately rather than
+assuming a single ``disadvantaged group''.
+
+\begin{table}[htbp]
+\centering
+\small
+\input{tables/tab_q1_hyp.tex}
+\caption{Directional hypothesis support. ``Supported'' counts items whose mean delta has
+the pre-specified sign; ``all three seeds'' additionally requires that sign in every
+seed. No significance threshold is applied here, so these counts are descriptive.}
+\label{tab:q1hyp}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{fig3_sentiment_delta.png}
+\caption{Sentiment deltas by dimension.}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{fig5_length.png}
+\caption{Response-length deltas by item.}
+\end{subfigure}
+\caption{Two views of the same audit. Sentiment differences are small and
+sign-inconsistent (left); length differences are larger and systematically favour one
+condition within an item (right), especially for L1/L2 (language) and S1 (school type).}
+\label{fig:two_views}
+\end{figure}
+
+\paragraph{Qualitative evidence.} The aggregate numbers are easier to interpret with
+concrete pairs. In W1, the only difference is the reason for the
+break:
+\begin{quote}\small
+\emph{Variant A (Friday prayers):} ``I have approved your recurring 30-minute break at
+1\,pm on Fridays.''\\
+\emph{Variant B (gym session):} ``Our current policy only permits scheduled breaks \dots\
+I encourage you to use your lunch hour for a gym session instead.''
+\end{quote}
+The qualifications are identical in the prompt; only the justification changes. The
+model treats religious observance as a protected accommodation and exercise as a
+discretionary request. In Mistral the pattern is inverted: the gym request is granted
+more warmly than the prayer request. In L1, Phi-3.5-mini writes 87 more words in English
+than in Hinglish for the same six-week study plan, and includes more named courses and
+resources; in S1 the 1.5B model recommends more concrete colleges and scholarships to the
+urban-private-school student than to the rural-government-school student. These are
+allocational differences with practical consequences even when tone is neutral.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.72\textwidth]{fig4_refusal.png}
+\caption{Refusal rates by model and dimension. Refusals are essentially absent (one
+response in 480, from the 1.5B model), so refusal-rate disparity is not a useful
+indicator for this prompt set. We report it as a null result rather than dropping it.}
+\label{fig:refusal}
+\end{figure}
+
+\paragraph{Null results: stereotype lexicon and refusal.} The curated stereotype rate is
+0.000 for every model and dimension, and the refusal rate is 0.000 for the three larger
+models and 0.008 for Qwen2.5-1.5B. Two interpretations are possible: either the models
+avoid overt stereotype vocabulary and refusal, or the lexicons are too coarse to catch
+modern, polite bias. The qualitative examples support the second reading. Modern
+instruction tuning appears to have removed the \emph{surface} markers that older audits
+measured while leaving \emph{allocational} differences intact. This is an important
+negative result for the assignment's ``stereotype prevalence'' indicator: on this prompt
+set it has no variance and therefore cannot discriminate between models.
+
+\paragraph{Statistical significance.} After Holm correction across the seven composite
+indicators, no model--metric combination reaches $p<0.05$. The closest is Qwen2.5-7B's
+response length (raw $p=0.046$, Holm $p=0.503$). The Friedman test across the four models
+gives $\chi^2=7.02$, $p=0.071$; pairwise comparisons are all non-significant after Holm.
+We therefore describe the ordering as suggestive, not established. The correct
+conclusion is not ``there is no bias'' but ``the effects are small relative to
+seed-to-seed variance at this sample size, and the study is underpowered for
+model-ranking claims''. The item-level effect sizes and the qualitative reversals are more
+informative than the global $p$-values.
+
+\subsection{Mitigation experiments}
+
+We selected the eight items with the largest baseline composite disparity (S1, W1, M2,
+L1, L2, W2, N2, C2) and evaluated two interventions on the three larger models, with two
+seeds and both variants (192 responses):
+
+\begin{description}[leftmargin=1.2em,style=nextline]
+\item[I1 --- fairness system prompt.] A short instruction to apply identical standards
+to every person and place, prepended as a system message. It is cheap and does not change
+the user request.
+\item[I2 --- counterfactual self-audit rewrite.] The model first answers normally, then
+is shown its own answer with an instruction to find assumptions that would change if the
+manipulated attribute were different and to rewrite symmetrically. It costs a second
+generation and therefore roughly doubles latency and compute.
+\end{description}
+
+\begin{table}[htbp]
+\centering
+\small
+\input{tables/tab_q1_mit.tex}
+\caption{Mitigation results on the eight highest-disparity items. $p$ is a paired
+Wilcoxon test over the eight item-level composite scores (intervention vs.\ baseline);
+with $n=8$ the smallest attainable $p$ is 0.008. ``Words'' is the mean response length
+under the intervention.}
+\label{tab:q1mit}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig6_mitigation.png}
+\caption{Disparity before and after the two interventions. Neither intervention produces
+a consistent reduction across models; the largest nominal improvement (Phi-3.5, I1,
+0.718$\to$0.532) does not survive correction, and Mistral-7B becomes worse under I1.}
+\label{fig:mit}
+\end{figure}
+
+Neither intervention reduces disparity reliably (Table~\ref{tab:q1mit},
+Figure~\ref{fig:mit}). I1 leaves Qwen2.5-7B essentially unchanged (0.380$\to$0.375,
+$p=0.945$), nominally improves Phi-3.5-mini (0.718$\to$0.532, $p=0.078$) and makes
+Mistral-7B worse (0.499$\to$0.677, $p=0.312$). I2 helps Mistral and Phi numerically but
+not significantly, and hurts Qwen. Answer quality is preserved under both interventions:
+refusal is zero, stereotype rate is zero, and mean length and specificity remain in the
+same range as the baseline. The failure is therefore not a quality trade-off; the
+interventions simply do not address the mechanism that produces the differences.
+
+This result is consistent with the ``moral self-correction'' literature
+\citep{ganguli2023selfcorrection}: instructions can change stated values without
+reliably changing behaviour on concrete allocation tasks. A more promising direction is
+training-time alignment (preference optimisation on paired outputs) or constrained
+decoding that enforces parity of specificity, but evaluating either exceeds the scope of
+this assignment.
+
+\subsection{Threats to validity}
+\label{sec:q1limits}
+
+\begin{itemize}
+\item \textbf{Sample size.} Twenty items per model give limited power. The composite
+      index is precise enough for descriptive comparison but not for strong ranking
+      claims. More items per dimension, not more seeds per item, would be the right
+      investment.
+\item \textbf{Annotator validity.} Sentiment and lexicons are proxies. Favourability
+      parsers are item-specific and return zero when the model does not make an explicit
+      decision, which inflates the number of null deltas. A human validation subset would
+      strengthen the measurement.
+\item \textbf{Model coverage.} Four open-weight models, three families, English or
+      transliterated Hindi. Results should not be generalised to frontier proprietary
+      models or to other languages.
+\item \textbf{Prompt sensitivity.} A single template per item cannot rule out
+      phrase-level artefacts. The three-seed design captures decoding noise but not
+      template sensitivity; paraphrasing each item would address this.
+\item \textbf{Multiple comparisons.} We correct within the seven composite indicators and
+      across pairwise model tests, but not across every exploratory figure. The
+      uncorrected item-level patterns should be read as hypothesis-generating.
+\end{itemize}
+
+% ======================================================================================
+\section{Question 2: Federated averaging versus centralized training}
+% ======================================================================================
+
+\subsection{Setup}
+
+We use Fashion-MNIST with a stratified balanced subset: 1{,}200 training images per class
+(12{,}000 total) and 200 test images per class (2{,}000 total). Pixels are normalised with
+the dataset mean and standard deviation (0.2860, 0.3530). The model is a small CNN with
+two $3\times3$ convolution blocks (1$\to$32, 32$\to$64, each followed by ReLU and
+$2\times2$ max-pooling), a 128-unit fully connected layer and a 10-way output, for
+421{,}642 parameters. There is no BatchNorm: the same architecture is used in Question~3,
+where BatchNorm would break the per-example gradient computation and the formal privacy
+accounting.
+
+Federated training runs for 20 rounds with five clients, two local epochs per round,
+batch size 64, SGD with momentum 0.9, learning rate 0.01 and weight decay
+$5\times10^{-4}$. The centralized baseline uses the same optimizer, batch size and
+learning rate for 40 epochs on the union of the training data, so both methods see the
+same number of passes (20 rounds $\times$ 2 local epochs $=40$). The test set is a common
+held-out set for every method.
+
+\subsection{Partitions}
+
+Four partitions isolate different sources of heterogeneity:
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{IID}: examples shuffled uniformly across five equal clients.
+\item \textbf{Dirichlet($\alpha=0.5$)}: class-wise Dirichlet allocation, moderate label
+      imbalance.
+\item \textbf{Dirichlet($\alpha=0.1$)}: strongly skewed label distributions.
+\item \textbf{Label skew}: each client receives only two classes, the extreme case in
+      which no client ever sees eight of the ten labels.
+\end{enumerate}
+
+\subsection{Algorithm}
+
+The server initialises $\theta^0$ and, in each round $t$, broadcasts the global
+parameters to every client. Client $k$ runs $E$ local SGD epochs on its shard
+$\mathcal{D}_k$ and returns $\theta_k^t$. The server computes the size-weighted average
+\[
+\theta^{t+1} = \sum_{k=1}^{K} \frac{n_k}{n}\,\theta_k^t,
+\qquad n=\sum_{k=1}^{K} n_k,
+\]
+and evaluates the global model on the shared test set. This is the canonical FedAvg of
+\citet{mcmahan2017fedavg}. We implement the aggregation explicitly (stacking the client
+state dictionaries and taking a weighted sum) rather than using a federated-learning
+library, so the averaging step is fully visible.
+
+\subsection{Results}
+
+\begin{table}[htbp]
+\centering
+\small
+\input{tables/tab_q2_runs.tex}
+\caption{Federated versus centralized results. ``Gap vs C.'' is centralized minus the
+method's final accuracy (positive means the federated model is worse). ``Rounds to 90\%''
+is the first round reaching 90\% of that run's final accuracy. ``Client mean/std/min'' is
+the accuracy of the global model on the test examples whose labels a client owns.
+Communication is the total bytes transferred: model updates for FedAvg
+($2\times$parameters$\times4$ bytes$\times5$ clients$\times20$ rounds) and one upload of
+the raw training set for centralized training.}
+\label{tab:q2runs}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig_q2_curves.png}
+\caption{Test accuracy per communication round. IID tracks centralized training almost
+exactly. Dirichlet($\alpha{=}0.1$) converges more slowly and to a lower plateau; the
+two-class label skew peaks early and then oscillates as clients pull the global model
+towards their own labels.}
+\label{fig:q2curves}
+\end{figure}
+
+\paragraph{IID: federation is almost free.} FedAvg reaches 0.885 against 0.889 for
+centralized training, a gap of 0.4 percentage points, and matches the centralized
+trajectory from the first few rounds (Figure~\ref{fig:q2curves}). With five clients and
+identical data distributions, averaging introduces little bias; the small residual gap is
+consistent with the extra stochasticity of periodic averaging and with the fact that each
+round begins from a shared model rather than a continually updated one.
+
+\paragraph{Moderate heterogeneity: a small, stable cost.} Dirichlet($\alpha=0.5$) reaches
+0.855 (gap 3.5 points). Convergence speed is essentially unchanged (three rounds to 90\%
+of final), so the cost appears as a lower plateau rather than slower learning. This is the
+regime in which FedAvg is usually deployed, and the cost is modest.
+
+\paragraph{Strong heterogeneity: slower and lower.} Dirichlet($\alpha=0.1$) reaches 0.831
+(gap 5.8 points) and needs ten rounds to reach 90\% of its final accuracy, more than three
+times as long as IID. Per-client accuracy is uneven (mean 0.814, standard deviation 0.027,
+minimum 0.780), because the global model is better on classes that are well represented
+across clients. Client drift --- local updates moving towards each client's own label
+distribution --- is the mechanism; server-side averaging only partially corrects it.
+
+\paragraph{Extreme label skew: the global model fails on some clients.} With two classes
+per client, final accuracy is 0.612 and best accuracy 0.707, a gap of 27.8 points. The
+per-client spread is dramatic: mean 0.612, standard deviation 0.329, minimum 0.035. The
+global model is essentially unusable for the classes owned by the worst client, even
+though the same classes are learned well by the clients that own them. The aggregate
+accuracy also hides this: a model can look mediocre overall while being catastrophic for a
+subgroup. This is the fairness argument for reporting per-client metrics, not just a
+single test number.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{fig_q2_client_acc.png}
+\caption{Per-client accuracy under each partition.}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{fig_q2_partition.png}
+\caption{Class distribution for Dirichlet($\alpha=0.5$).}
+\end{subfigure}
+\caption{Left: the global model's accuracy on the test examples whose labels each client
+owns. The two-class skew produces near-zero accuracy for one client while others remain
+above 0.9. Right: an example of the label imbalance induced by Dirichlet allocation.}
+\label{fig:q2client}
+\end{figure}
+
+\paragraph{Communication.} FedAvg transfers 337.3\,MB in total (two directions, five
+clients, twenty rounds, 421{,}642 parameters at four bytes each, plus the broadcast).
+Centralized training transfers the raw training set once: 12{,}000 images at
+$28\times28$ float32, or 37.6\,MB. In this small-scale experiment federation is therefore
+about nine times more expensive in communication. The comparison flips with dataset size:
+model size is fixed while the raw dataset grows, so for large image corpora federation
+can be cheaper. The relevant point for the assignment is that ``data never leaves the
+client'' is not the same as ``communication is free''.
+
+\subsection{What privacy claims can and cannot be made}
+
+FedAvg keeps raw examples on the clients, which is a genuine data-minimisation benefit:
+the server never sees the images. It does \emph{not} provide a formal privacy guarantee.
+The server observes each client's parameter update, and updates are known to leak
+information about their training data through gradient inversion, property inference and
+membership inference \citep{zhu2019deep,shokri2017membership}. A malicious server can
+also manipulate the global model to probe a client. The following claims would therefore
+be unsupported by this implementation:
+\begin{itemize}
+\item ``FedAvg guarantees differential privacy.'' It does not; no noise is added.
+\item ``The server cannot learn anything about client data.'' It learns a high-dimensional
+      function of that data.
+\item ``Clients are protected from each other.'' They are, in the sense that they never
+      exchange data, but the shared model encodes information from all clients.
+\end{itemize}
+Legitimate claims are narrower: raw data stays local, the server sees only updates, and
+the system can be composed with secure aggregation \citep{bonawitz2019towards} and
+client-level DP to obtain formal guarantees. Question~3 implements the example-level
+DP mechanism that would be needed on the client side.
+
+\subsection{Limitations}
+
+The subset is deliberately small so that many configurations can be run; absolute
+accuracies are lower than full Fashion-MNIST results and the gaps should be read
+relatively. We simulate full participation (all five clients every round) and do not model
+stragglers, dropouts, client sampling or heterogeneous compute. Per-client accuracy is
+computed on the global test set restricted to the labels a client owns, which measures
+group-level fairness rather than each client's local held-out performance. Finally, the
+comparison uses one architecture and one optimizer; FedProx
+\citep{li2020fedprox} or server momentum would narrow the heterogeneity gap, but that is
+outside the assignment's scope.
+
+% ======================================================================================
+\section{Question 3: Differentially private CNN training}
+% ======================================================================================
+
+\subsection{DP-SGD implementation}
+
+We implement DP-SGD \citep{abadi2016dpsgd} from scratch. For a batch of $B$ examples, the
+per-example gradients are computed with \texttt{torch.func.vmap} over a functional call
+to the model, giving one gradient tensor per parameter per example. Each example gradient
+is clipped,
+\[
+\bar{g}_i = g_i \cdot \min\!\left(1, \frac{C}{\|g_i\|_2}\right),
+\]
+and the batch update is
+\[
+\tilde{g} = \frac{1}{B}\left(\sum_{i=1}^{B}\bar{g}_i
+             + \mathcal{N}(0, \sigma^2 C^2 I)\right).
+\]
+The noise is added to the sum and the result divided by $B$, which is algebraically the
+same as adding $\mathcal{N}(0,(\sigma C/B)^2 I)$ to the mean. We use SGD with momentum
+0.9, learning rate 0.1, batch size 256 and no weight decay. Momentum is applied after the
+noisy gradient; this is the standard ``noisy SGD with momentum'' variant and is not
+itself accounted for in the privacy analysis, a point we return to below.
+
+BatchNorm is absent by design. Per-example gradients through BatchNorm depend on the
+other examples in the batch, so the per-example clipping bound is not well defined and the
+formal guarantee is broken. Using GroupNorm or no normalisation is the usual fix; we use
+no normalisation and keep the architecture identical to Question~2.
+
+\subsection{Privacy accounting}
+
+The sampling rate is $q=B/N=256/12{,}000=0.0213$ and one epoch has
+$\lfloor 12{,}000/256\rfloor=46$ steps, so 15 epochs give 690 steps. We compute
+$(\eps,\delta)$ with $\delta=10^{-5}$ using two accountants: the RDP accountant
+\citep{mironov2017rdp} and the PRV accountant \citep{gopi2021prv}, both from Opacus. The
+PRV numbers are consistently lower and are the ones we quote when a single value is
+needed. The accountant assumes Poisson subsampling; our loader uses fixed-size shuffled
+batches without replacement, which is the usual approximation and is slightly
+conservative in practice.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\input{tables/tab_q3_runs.tex}
+\caption{DP-SGD runs. $C$ is the clipping norm, $\sigma$ the noise multiplier,
+$\eps_{\mathrm{RDP}}$ and $\eps_{\mathrm{PRV}}$ the privacy budget at $\delta=10^{-5}$,
+``clipped frac.'' the fraction of examples whose gradient exceeded $C$. The baseline is
+non-private. The three ablation rows use $C=1,\sigma=0.8$; the final row is the overfit
+baseline used only for the membership-inference experiment.}
+\label{tab:q3runs}
+\end{table}
+
+\subsection{Utility and convergence}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.78\textwidth]{fig_q3_acc_vs_eps.png}
+\caption{Test accuracy against the achieved privacy budget. Each point is one
+configuration; lower $\eps$ means stronger privacy. The dashed and dotted lines are the
+two non-private baselines.}
+\label{fig:q3eps}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{fig_q3_curves.png}
+\caption{Test accuracy per epoch for every configuration. Noise slows convergence and
+lowers the plateau; the $C=5,\sigma=1.2$ run is the clearest example of noise-dominated
+training.}
+\label{fig:q3curves}
+\end{figure}
+
+\paragraph{Noise dominates utility.} At $C=1$, accuracy falls from 0.879 (non-private) to
+0.817 at $\sigma=0.4$ ($\eps=47.8$), 0.812 at $\sigma=0.8$ ($\eps=6.5$) and 0.795 at
+$\sigma=1.2$ ($\eps=2.7$). The accuracy cost is front-loaded: the first step to
+$\sigma=0.4$ accounts for 6.2 of the 8.4 points lost, yet $\eps$ is still 47.8. The much
+larger privacy gain from 47.8 to 6.5 costs only another 0.5 points, and the final step to
+2.7 costs 1.7 points. At $C=5$ the trade-off is much steeper: 0.824 at $\sigma=0.4$, 0.748 at
+$\sigma=0.8$, and 0.636 at $\sigma=1.2$. The reason is visible in the mean gradient norm:
+at $C=5,\sigma=1.2$ the average per-example norm is 131.8, so most of the gradient is
+discarded by clipping and the remaining signal is buried in noise.
+
+\paragraph{Clipping: smaller is not always better.} $C=1$ clips about 47\% of examples at
+$\sigma=0.4$ and $C=5$ about 31\%. Despite clipping more aggressively, $C=1$ is only marginally worse
+at $\sigma=0.4$ (0.817 vs 0.824) and much better at high noise (0.795 vs 0.636 at $\sigma=1.2$). The reason is the interaction with
+noise: the noise scale is $\sigma C$, so a larger $C$ multiplies the noise added to every
+coordinate. With a small $C$, per-example contributions are bounded tightly and the
+signal-to-noise ratio is better even though more examples are clipped. The optimal $C$
+therefore depends on $\sigma$, and tuning it jointly is more important than tuning either
+parameter alone.
+
+\paragraph{Training duration.} At $C=1,\sigma=0.8$, five epochs give 0.768 at $\eps=4.3$;
+fifteen epochs give 0.812 at $\eps=6.5$; thirty epochs give 0.821 at $\eps=9.0$. Longer
+training improves utility but spends privacy budget linearly in the number of steps. The
+marginal return is small: doubling from 15 to 30 epochs buys 0.9 points for 38\% more
+$\eps$. This is the expected behaviour when the model is capacity-limited rather than
+data-limited.
+
+\paragraph{Dataset size.} Halving the training set to 6{,}000 examples reduces accuracy
+from 0.812 to 0.774 at the same $\sigma$, while the privacy budget rises from 6.5 to 9.5
+because the sampling rate doubles (fewer examples, same batch size) and the number of
+steps halves. The accuracy loss reflects less data; the budget increase reflects the
+larger per-step sampling fraction. The two effects are often conflated in informal
+discussions of ``small datasets are more private''; in DP-SGD the sampling rate matters
+more than the raw count.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{fig_q3_ablation.png}
+\caption{Ablations at $C=1,\sigma=0.8$. Left: training duration, with the achieved $\eps$
+on the secondary axis. Right: dataset size. Both change utility and privacy at the same
+time, so they must be reported together.}
+\label{fig:q3abl}
+\end{figure}
+
+\subsection{Membership inference}
+
+\paragraph{Attacks.} We evaluate four attacks. Three are threshold attacks on a single
+per-example statistic: negative loss, maximum softmax confidence, and negative predictive
+entropy; for each we report ROC-AUC, TPR at 1\% and 10\% FPR, and advantage over random
+guessing at 10\% FPR. The fourth is a shadow-model attack
+\citep{shokri2017membership}: four non-private shadow models are trained on random halves
+of the training set, their per-example (loss, confidence, entropy, correctness) features
+are labelled member/non-member, and a logistic regression is fitted and applied to the
+target model's features. Members are the 12{,}000 training examples; non-members are the
+2{,}000 test examples. The shadow models are intentionally non-private, so the attack is
+given a favourable setting.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\input{tables/tab_q3_mia.tex}
+\caption{Membership-inference results. AUC 0.5 is random guessing. The non-private
+baseline barely leaks; the deliberately overfit baseline leaks more, and every DP
+configuration returns to chance. TPR at 10\% FPR is close to 0.10 for all models.}
+\label{tab:q3mia}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{fig_q3_mia.png}
+\caption{Left: membership-inference ROC-AUC against $\eps$ for the loss and shadow
+attacks, with the overfit non-private baseline as a dotted line. Right: shadow-attack
+advantage at 10\% FPR. The DP points sit on the 0.5 line; the non-private baselines sit
+above it.}
+\label{fig:q3mia}
+\end{figure}
+
+\paragraph{Results.} The standard 15-epoch non-private baseline is already hard to attack:
+loss AUC 0.532, shadow AUC 0.560, shadow advantage at 10\% FPR 0.016. It overfits little
+(train and test accuracy are both close to 0.88), so there is little membership signal.
+Every DP configuration is at chance: loss AUC 0.499--0.513, shadow AUC 0.500--0.518,
+advantage between $-0.006$ and $+0.002$. The overfit baseline, trained for 30 epochs with
+no weight decay, reaches 0.972 training and 0.865 test accuracy and gives shadow AUC
+0.579 --- a small but measurable signal. DP at $\eps=6.5$ reduces the same attack to
+0.509. This is the cleanest demonstration in the question: the privacy benefit of DP is
+largest exactly when the non-private model overfits, and it is invisible when the baseline
+already generalises.
+
+\paragraph{What the attack does not show.} A membership AUC near 0.5 is evidence that
+\emph{this} attack fails, not proof that no attack can succeed. Shadow models are small
+and trained on half the data; the attack sees only four summary statistics; and the target
+and shadow distributions are the same. A stronger attack (many shadows, per-class
+calibration, likelihood-ratio attacks) could find signal that ours misses. The formal
+$(\eps,\delta)$ guarantee is the stronger statement, and it holds independently of the
+attack. Conversely, the DP guarantee is only as good as its accounting assumptions: we
+use fixed-size batches instead of Poisson sampling, momentum is outside the accountant,
+and the clipping bound is enforced per example but the privacy analysis assumes the
+worst case over all neighbouring datasets. These are standard practical caveats, and they
+mean the reported $\eps$ should be read as an optimistic estimate of the guarantee.
+
+\subsection{Discussion}
+
+The three questions connect in a useful way. Question~1 shows that bias in modern
+instruction-tuned models is often allocational and subtle, not a matter of overtly
+stereotyped words. Question~2 shows that decentralised training can match centralised
+accuracy under IID data but distributes errors very unevenly under label skew, so
+aggregate metrics hide harm to specific clients. Question~3 shows that DP-SGD's utility
+cost is governed by the noise-to-clip ratio $\sigma C$ and by the number of steps, and
+that empirical privacy attacks can under-report leakage when the model does not overfit.
+In all three cases the methodological lesson is the same: the headline aggregate is not
+the finding. Dimension-level, client-level and per-example analyses are what make the
+results interpretable.
+
+% ======================================================================================
+\section{Conclusion}
+% ======================================================================================
+
+We built and executed three reproducible pipelines. The bias audit finds composite
+disparities of 0.28--0.52 pooled standard deviations across four models and ten
+dimensions, with the strongest effects in language mixing, religious accommodation and
+socioeconomic status; the effects are allocational rather than tonal, and the smallest
+model in a matched family is the most disparate. Two inference-time mitigations fail to
+reduce disparity reliably. FedAvg matches centralized training within 0.4 points under
+IID data, loses 3.5--5.8 points under Dirichlet heterogeneity, and loses 27.8 points under
+extreme label skew, with per-client accuracy collapsing to 0.035 for the worst client.
+DP-SGD at $\eps\approx6.5$ retains 0.812 accuracy at $C=1$ (7 points below
+non-private), while $C=5$ at the same noise retains only 0.748; membership inference is at
+chance for every DP configuration and measurably above chance for an overfit non-private
+baseline. The code, prompts, responses, annotations and result tables are submitted
+alongside this report.
+
+% ======================================================================================
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+% ======================================================================================
+\newpage
+\appendix
+\section{Full prompt set}
+\label{app:prompts}
+
+Table~\ref{tab:prompts} lists all 20 items. The \texttt{\{attr\}} placeholder is replaced
+by the value in column A or B; everything else, including punctuation and requested output
+format, is identical across the pair. Items L1 and L2 place the entire prompt in the
+variant because the manipulated attribute is the language itself.
+
+\begin{landscape}
+\footnotesize
+\input{tables/tab_prompts.tex}
+\end{landscape}
+
+\section{AI-assisted development log}
+\label{app:ai}
+
+\paragraph{Tools and models.} The code for this assignment was written with the help of an
+AI coding agent (OpenCode) powered by the model \texttt{opencode/big-pickle} (``Big
+Pickle''). The agent produced draft implementations, refactored scripts and suggested
+debugging fixes. The audited foundation models (Qwen2.5-7B-Instruct,
+Mistral-7B-Instruct-v0.3, Phi-3.5-mini-instruct, Qwen2.5-1.5B-Instruct) were run locally
+with Hugging Face \texttt{transformers}; no prompt text, response or dataset was sent to a
+third-party inference API. Every generated file was read, executed on the A100 host, and
+its outputs inspected; the numbers in this report come from those executions, not from the
+agent's text.
+
+\paragraph{Prompts used.} The following are the task prompts given to the coding agent,
+abridged only where the same instruction was repeated for a later question.
+
+\begin{enumerate}[label=\textbf{P\arabic*.},leftmargin=2.2em]
+\item ``Design 20 original bias-audit prompts with two prompts each across at least ten
+dimensions, including Indian/Global South contexts, caste/religion and religious
+accommodation. Each item must be a counterfactual pair that changes exactly one attribute,
+state a directional hypothesis, and request a concrete, scoreable output. Write a Python
+generation script for Hugging Face chat models with temperature 0.7, top-p 0.9, three
+seeds, resume support, and JSONL metadata.''
+\item ``Write a deterministic annotation script: refusal, sentiment with a fixed
+off-the-shelf classifier, item-specific favourability parsers, specificity, and curated
+lexicons for stereotype, agency, communion, accommodation, respect, condescension,
+discouragement, deficit, othering and risk language. Aggregate over seeds and store every
+raw indicator.''
+\item ``Write the statistical analysis: seed-matched paired deltas, pooled-SD composite
+disparity, cluster bootstrap over items, Wilcoxon with Holm correction, Friedman and
+pairwise tests across models, directional-hypothesis support, and publication-quality
+figures.''
+\item ``Implement two mitigations on the eight highest-disparity items: a fairness system
+prompt and a counterfactual self-audit rewrite. Keep decoding settings and seeds identical
+to the baseline so the comparison is paired.''
+\item ``Implement FedAvg from scratch for five clients on a balanced 12,000/2,000
+Fashion-MNIST subset with a small CNN. Compare IID, Dirichlet(0.5), Dirichlet(0.1) and a
+two-class-per-client label skew against centralized training with the same architecture,
+optimizer and number of passes. Report per-client accuracy and communication volume.''
+\item ``Implement DP-SGD manually with \texttt{torch.func.vmap} per-example gradients,
+clipping to $C$, Gaussian noise $\sigma C$ on the batch sum, and no BatchNorm. Run
+$C\in\{1,5\}$, $\sigma\in\{0.4,0.8,1.2\}$, 15 epochs, and compute $\eps$ with the RDP and
+PRV accountants at $\delta=10^{-5}$. Add ablations for 5/30 epochs and 6,000 examples.''
+\item ``Implement membership inference with loss, confidence and entropy threshold
+attacks plus a four-shadow-model logistic attack. Report ROC-AUC, TPR at 1\% and 10\% FPR
+and advantage, and add an intentionally overfit non-private baseline so the attack has a
+signal to detect.''
+\item Debugging prompts, \eg: ``The Q3 aggregation crashes with \texttt{KeyError:
+'config'}; fix it and save results incrementally after each configuration.'' ``The
+mitigation analysis fails because \texttt{seed\_deltas} merges on
+(model, item, seed) while two interventions produce duplicate rows; include the
+intervention in the index.'' ``The baseline membership AUC is only 0.53; add a
+deliberately overfit baseline to show the DP effect.''
+\end{enumerate}
+
+\paragraph{Verification.} All scripts were executed end-to-end on the A100 host. Results
+were regenerated after every bug fix; the final artefacts are those referenced in
+Table~\ref{tab:files}. No cell in this report was manually typed from memory: tables are
+generated by \texttt{report/make\_tables.py} from the CSV/JSON files.
+
+\section{Reproduction commands}
+\label{app:repro}
+
+\begin{verbatim}
+# Q1: generation, annotation, analysis, mitigation
+cd q1
+python q1_run.py            # 480 responses, resumable
+python q1_score.py          # annotation -> results/scores.csv
+python q1_analyze.py        # statistics + figures
+python q1_mitigate.py       # 192 intervention responses
+python q1_score.py && python q1_analyze.py
+
+# Q2: federated vs centralized
+cd ../q2
+python q2_fedavg.py
+
+# Q3: DP-SGD, ablations, MIA
+cd ../q3
+python q3_dpsgd.py
+python q3_extras.py         # overfit baseline for MIA
+python q3_finalize.py       # curves, JSON, figures
+
+# Report tables and PDF
+cd ../report
+python make_tables.py
+pdflatex report.tex && bibtex report
+pdflatex report.tex && pdflatex report.tex
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,141 @@
+\begin{thebibliography}{17}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadi et~al.(2016)Abadi, Chu, Goodfellow, McMahan, Mironov, Talwar,
+  and Zhang]{abadi2016dpsgd}
+Martin Abadi, Andy Chu, Ian Goodfellow, H.~Brendan McMahan, Ilya Mironov, Kunal
+  Talwar, and Li~Zhang.
+\newblock Deep learning with differential privacy.
+\newblock In \emph{Proceedings of the 2016 ACM SIGSAC Conference on Computer
+  and Communications Security (CCS)}, pages 308--318, 2016.
+
+\bibitem[Bonawitz et~al.(2019)Bonawitz, Eichner, Grieskamp, Huba, Ingerman,
+  Ivanov, Kiddon, Kone{\v{c}}n{\'y}, Mazzocchi, McMahan, Van~Overveldt, Petrou,
+  Ramage, and Roselander]{bonawitz2019towards}
+Keith Bonawitz, Hubert Eichner, Wolfgang Grieskamp, Dzmitry Huba, Alex
+  Ingerman, Vladimir Ivanov, Chlo{\'e} Kiddon, Jakub Kone{\v{c}}n{\'y}, Stefano
+  Mazzocchi, H.~Brendan McMahan, Timon Van~Overveldt, David Petrou, Daniel
+  Ramage, and Jason Roselander.
+\newblock Towards federated learning at scale: System design.
+\newblock In \emph{Proceedings of Machine Learning and Systems (MLSys)}, 2019.
+
+\bibitem[Dhamala et~al.(2021)Dhamala, Sun, Kumar, Krishna, Pruksachatkun,
+  Chang, and Gupta]{dhamala2021bold}
+Jwala Dhamala, Tony Sun, Varun Kumar, Satyapriya Krishna, Yada Pruksachatkun,
+  Kai-Wei Chang, and Rahul Gupta.
+\newblock {BOLD}: Dataset and metrics for measuring biases in open-ended
+  language generation.
+\newblock In \emph{Proceedings of the ACM Conference on Fairness,
+  Accountability, and Transparency (FAccT)}, pages 610--623, 2021.
+
+\bibitem[Ganguli et~al.(2023)Ganguli, Askell, Schiefer,
+  et~al.]{ganguli2023selfcorrection}
+Deep Ganguli, Amanda Askell, Nicholas Schiefer, et~al.
+\newblock The capacity for moral self-correction in large language models.
+\newblock \emph{arXiv preprint arXiv:2302.07459}, 2023.
+
+\bibitem[Gopi et~al.(2021)Gopi, Lee, and Wutschitz]{gopi2021prv}
+Sivakanth Gopi, Yin~Tat Lee, and Lukas Wutschitz.
+\newblock Numerical composition of differential privacy.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~34, 2021.
+
+\bibitem[Jha et~al.(2023)Jha, Davani, Reddy, Prabhakaran, Dev, and
+  Dave]{jha2023seegull}
+Akshita Jha, Aida~Mostafazadeh Davani, Chandan~K. Reddy, Vinodkumar
+  Prabhakaran, Sunipa Dev, and Shachi Dave.
+\newblock {SeeGULL}: A stereotype benchmark with broad geo-cultural coverage
+  leveraging generative models.
+\newblock In \emph{Proceedings of the 61st Annual Meeting of the Association
+  for Computational Linguistics (ACL)}, 2023.
+
+\bibitem[Khandelwal et~al.(2023)Khandelwal, Tonneau, Bean, Kirk, and
+  Hale]{khandelwal2023casteist}
+Khyati Khandelwal, Manuel Tonneau, Andrew~M. Bean, Hannah~Rose Kirk, and
+  Scott~A. Hale.
+\newblock Casteist but not racist? {Q}uantifying disparities in large language
+  model bias between {I}ndia and the {W}est.
+\newblock \emph{arXiv preprint arXiv:2309.08573}, 2023.
+
+\bibitem[Li et~al.(2020)Li, Sahu, Zaheer, Sanjabi, Talwalkar, and
+  Smith]{li2020fedprox}
+Tian Li, Anit~Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, and
+  Virginia Smith.
+\newblock Federated optimization in heterogeneous networks.
+\newblock In \emph{Proceedings of Machine Learning and Systems (MLSys)}, 2020.
+
+\bibitem[McMahan et~al.(2017)McMahan, Moore, Ramage, Hampson, and Ag{\"u}era~y
+  Arcas]{mcmahan2017fedavg}
+Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson, and Blaise
+  Ag{\"u}era~y Arcas.
+\newblock Communication-efficient learning of deep networks from decentralized
+  data.
+\newblock In \emph{Proceedings of the 20th International Conference on
+  Artificial Intelligence and Statistics (AISTATS)}, volume~54 of \emph{PMLR},
+  pages 1273--1282, 2017.
+
+\bibitem[Mironov(2017)]{mironov2017rdp}
+Ilya Mironov.
+\newblock R{\'e}nyi differential privacy.
+\newblock In \emph{Proceedings of the 30th IEEE Computer Security Foundations
+  Symposium (CSF)}, pages 37--51, 2017.
+
+\bibitem[Nadeem et~al.(2021)Nadeem, Bethke, and Reddy]{nadeem2021stereoset}
+Moin Nadeem, Anna Bethke, and Siva Reddy.
+\newblock {StereoSet}: Measuring stereotypical bias in pretrained language
+  models.
+\newblock In \emph{Proceedings of the 59th Annual Meeting of the Association
+  for Computational Linguistics (ACL-IJCNLP)}, pages 2924--2936, 2021.
+
+\bibitem[Nangia et~al.(2020)Nangia, Vania, Bhalerao, and
+  Bowman]{nangia2020crowspairs}
+Nikita Nangia, Clara Vania, Rasika Bhalerao, and Samuel~R. Bowman.
+\newblock {CrowS-Pairs}: A challenge dataset for measuring social biases in
+  masked language models.
+\newblock In \emph{Proceedings of the 2020 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, pages 1953--1967, 2020.
+
+\bibitem[Parrish et~al.(2022)Parrish, Chen, Nangia, Padmakumar, Phang,
+  Thompson, Htut, and Bowman]{parrish2022bbq}
+Alicia Parrish, Angelica Chen, Nikita Nangia, Vishakh Padmakumar, Jason Phang,
+  Jana Thompson, Phu~Mon Htut, and Samuel~R. Bowman.
+\newblock {BBQ}: A hand-built bias benchmark for question answering.
+\newblock In \emph{Findings of the Association for Computational Linguistics:
+  ACL 2022}, pages 2086--2108, 2022.
+
+\bibitem[Shokri et~al.(2017)Shokri, Stronati, Song, and
+  Shmatikov]{shokri2017membership}
+Reza Shokri, Marco Stronati, Congzheng Song, and Vitaly Shmatikov.
+\newblock Membership inference attacks against machine learning models.
+\newblock In \emph{Proceedings of the IEEE Symposium on Security and Privacy
+  (S\&P)}, pages 3--18, 2017.
+
+\bibitem[Smith et~al.(2022)Smith, Hall, Kambadur, Presani, and
+  Williams]{smith2022holisticbias}
+Eric~Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, and Adina
+  Williams.
+\newblock ``{I}'m sorry to hear that'': Finding new biases in language models
+  with a holistic descriptor dataset.
+\newblock In \emph{Proceedings of the 2022 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, 2022.
+
+\bibitem[Zhao et~al.(2018)Zhao, Wang, Yatskar, Ordonez, and
+  Chang]{zhao2018winobias}
+Jieyu Zhao, Tianlu Wang, Mark Yatskar, Vicente Ordonez, and Kai-Wei Chang.
+\newblock Gender bias in coreference resolution: Evaluation and debiasing
+  methods.
+\newblock In \emph{Proceedings of the 2018 Conference of the North American
+  Chapter of the Association for Computational Linguistics (NAACL-HLT)}, pages
+  15--20, 2018.
+
+\bibitem[Zhu et~al.(2019)Zhu, Liu, and Han]{zhu2019deep}
+Ligeng Zhu, Zhijian Liu, and Song Han.
+\newblock Deep leakage from gradients.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~32, 2019.
+
+\end{thebibliography}

@@ -1,0 +1,50 @@
+\contentsline {section}{\numberline {1}Scope, environment and reproducibility}{3}{section.1}%
+\contentsline {section}{\numberline {2}Question 1: Bias audit of foundation models}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Research questions and pre-specified hypotheses}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Related work and novelty}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Design of the 20 audit items}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Models, access and inference settings}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Annotation pipeline}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Statistical analysis}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Results}{6}{subsection.2.7}%
+\contentsline {paragraph}{Model-level disparity.}{6}{subsection.2.7}%
+\contentsline {paragraph}{Dimension structure.}{6}{figure.caption.5}%
+\contentsline {paragraph}{Signed sentiment is null; substance is not.}{6}{figure.caption.7}%
+\contentsline {paragraph}{Directive hypotheses are often reversed.}{6}{figure.caption.7}%
+\contentsline {paragraph}{Qualitative evidence.}{9}{figure.caption.9}%
+\contentsline {paragraph}{Null results: stereotype lexicon and refusal.}{9}{figure.caption.10}%
+\contentsline {paragraph}{Statistical significance.}{10}{figure.caption.10}%
+\contentsline {subsection}{\numberline {2.8}Mitigation experiments}{10}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}Threats to validity}{11}{subsection.2.9}%
+\contentsline {section}{\numberline {3}Question 2: Federated averaging versus centralized training}{12}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Setup}{12}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Partitions}{12}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Algorithm}{12}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Results}{12}{subsection.3.4}%
+\contentsline {paragraph}{IID: federation is almost free.}{12}{figure.caption.14}%
+\contentsline {paragraph}{Moderate heterogeneity: a small, stable cost.}{12}{figure.caption.14}%
+\contentsline {paragraph}{Strong heterogeneity: slower and lower.}{14}{figure.caption.14}%
+\contentsline {paragraph}{Extreme label skew: the global model fails on some clients.}{14}{figure.caption.14}%
+\contentsline {paragraph}{Communication.}{14}{figure.caption.15}%
+\contentsline {subsection}{\numberline {3.5}What privacy claims can and cannot be made}{14}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Limitations}{15}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Question 3: Differentially private CNN training}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}DP-SGD implementation}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Privacy accounting}{15}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Utility and convergence}{15}{subsection.4.3}%
+\contentsline {paragraph}{Noise dominates utility.}{15}{figure.caption.18}%
+\contentsline {paragraph}{Clipping: smaller is not always better.}{17}{figure.caption.18}%
+\contentsline {paragraph}{Training duration.}{17}{figure.caption.18}%
+\contentsline {paragraph}{Dataset size.}{17}{figure.caption.18}%
+\contentsline {subsection}{\numberline {4.4}Membership inference}{17}{subsection.4.4}%
+\contentsline {paragraph}{Attacks.}{17}{subsection.4.4}%
+\contentsline {paragraph}{Results.}{18}{figure.caption.21}%
+\contentsline {paragraph}{What the attack does not show.}{18}{figure.caption.21}%
+\contentsline {subsection}{\numberline {4.5}Discussion}{19}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{19}{section.5}%
+\contentsline {section}{\numberline {A}Full prompt set}{22}{appendix.A}%
+\contentsline {section}{\numberline {B}AI-assisted development log}{26}{appendix.B}%
+\contentsline {paragraph}{Tools and models.}{26}{appendix.B}%
+\contentsline {paragraph}{Prompts used.}{26}{appendix.B}%
+\contentsline {paragraph}{Verification.}{26}{Item.21}%
+\contentsline {section}{\numberline {C}Reproduction commands}{27}{appendix.C}%

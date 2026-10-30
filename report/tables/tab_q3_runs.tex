@@ -1,0 +1,18 @@
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccccc}
+\toprule
+Configuration & $C$ & $\sigma$ & $\varepsilon_{\mathrm{RDP}}$ & $\varepsilon_{\mathrm{PRV}}$ & Test acc. & Test loss & Time (s) & Clipped frac. \\
+\midrule
+baseline\_nonprivate & -- & -- & $\infty$ & $\infty$ & 0.879 & 0.436 & 31 & -- \\
+C1.0\_sigma0.4 & 1.0 & 0.4 & 47.79 & 42.36 & 0.817 & 0.950 & 41 & 0.47 \\
+C1.0\_sigma0.8 & 1.0 & 0.8 & 6.52 & 5.77 & 0.811 & 1.084 & 38 & 0.48 \\
+C1.0\_sigma1.2 & 1.0 & 1.2 & 2.73 & 2.48 & 0.795 & 1.439 & 36 & 0.48 \\
+C5.0\_sigma0.4 & 5.0 & 0.4 & 47.79 & 42.36 & 0.824 & 1.223 & 38 & 0.31 \\
+C5.0\_sigma0.8 & 5.0 & 0.8 & 6.52 & 5.77 & 0.748 & 1.934 & 38 & 0.39 \\
+C5.0\_sigma1.2 & 5.0 & 1.2 & 2.73 & 2.48 & 0.635 & 2.496 & 38 & 0.42 \\
+ablation\_epochs5\_C1.0\_sigma0.8 & 1.0 & 0.8 & 4.32 & 3.65 & 0.768 & 0.995 & 13 & 0.61 \\
+ablation\_epochs30\_C1.0\_sigma0.8 & 1.0 & 0.8 & 8.97 & 8.09 & 0.821 & 1.152 & 76 & 0.41 \\
+ablation\_n6k\_C1.0\_sigma0.8 & 1.0 & 0.8 & 9.52 & 8.48 & 0.774 & 1.092 & 21 & 0.55 \\
+overfit\_baseline\_30ep & -- & -- & $\infty$ & $\infty$ & 0.865 & 0.758 & -- & -- \\
+\bottomrule
+\end{tabular}

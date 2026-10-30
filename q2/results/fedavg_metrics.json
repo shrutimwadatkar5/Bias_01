@@ -1,0 +1,81 @@
+{
+  "config": {
+    "n_train": 12000,
+    "n_test": 2000,
+    "clients": 5,
+    "rounds": 20,
+    "local_epochs": 2,
+    "batch": 64,
+    "lr": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "params": 421642,
+    "central_epochs": 40,
+    "device": "cuda",
+    "dataset": "Fashion-MNIST (balanced subset)",
+    "date": "2026-10-30"
+  },
+  "runs": {
+    "iid": {
+      "final_acc": 0.885,
+      "best_acc": 0.886,
+      "final_loss": 0.33736102294921877,
+      "time_s": 93.09447264671326,
+      "rounds_to_90pct_of_final": 3,
+      "client_acc_mean": 0.885,
+      "client_acc_std": 0.0,
+      "client_acc_min": 0.885,
+      "client_acc_max": 0.885,
+      "comm_mb_total": 337.3136
+    },
+    "dirichlet_a0.5": {
+      "final_acc": 0.8545,
+      "best_acc": 0.8615,
+      "final_loss": 0.3926723861694336,
+      "time_s": 87.66643404960632,
+      "rounds_to_90pct_of_final": 3,
+      "client_acc_mean": 0.8545,
+      "client_acc_std": 0.0,
+      "client_acc_min": 0.8545,
+      "client_acc_max": 0.8545,
+      "comm_mb_total": 337.3136
+    },
+    "dirichlet_a0.1": {
+      "final_acc": 0.831,
+      "best_acc": 0.831,
+      "final_loss": 0.4370915107727051,
+      "time_s": 89.18843483924866,
+      "rounds_to_90pct_of_final": 10,
+      "client_acc_mean": 0.8144142857142856,
+      "client_acc_std": 0.02686635100504961,
+      "client_acc_min": 0.78,
+      "client_acc_max": 0.8525,
+      "comm_mb_total": 337.3136
+    },
+    "label_skew_2class": {
+      "final_acc": 0.6115,
+      "best_acc": 0.7065,
+      "final_loss": 1.1958357467651368,
+      "time_s": 94.37021446228027,
+      "rounds_to_90pct_of_final": 4,
+      "client_acc_mean": 0.6115,
+      "client_acc_std": 0.32904634931875476,
+      "client_acc_min": 0.035,
+      "client_acc_max": 0.9475,
+      "comm_mb_total": 337.3136
+    },
+    "centralized": {
+      "final_acc": 0.889,
+      "best_acc": 0.897,
+      "final_loss": 0.46868816566467286,
+      "time_s": 98.11194610595703,
+      "comm_mb_total": 37.632
+    }
+  },
+  "gaps_vs_centralized": {
+    "iid": 0.0040000000000000036,
+    "dirichlet_a0.5": 0.034499999999999975,
+    "dirichlet_a0.1": 0.05800000000000005,
+    "label_skew_2class": 0.27749999999999997
+  }
+}

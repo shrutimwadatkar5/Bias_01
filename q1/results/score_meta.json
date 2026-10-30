@@ -1,0 +1,8 @@
+{
+  "sentiment_model": "distilbert-base-uncased-finetuned-sst-2-english",
+  "n_responses": 672,
+  "n_items": 20,
+  "n_models": 4,
+  "repeats": 3,
+  "annotation": "deterministic lexicon + off-the-shelf sentiment classifier; all lexicons in q1_score.py"
+}

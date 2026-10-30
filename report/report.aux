@@ -1,0 +1,147 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{parrish2022bbq}
+\citation{dhamala2021bold}
+\citation{nadeem2021stereoset}
+\citation{nangia2020crowspairs}
+\citation{zhao2018winobias}
+\citation{smith2022holisticbias}
+\citation{jha2023seegull}
+\citation{khandelwal2023casteist}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Scope, environment and reproducibility}{3}{section.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Code and data artefacts submitted with the report. Every table and figure in this document is generated from the CSV/JSON files, not typed by hand.}}{3}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:files}{{1}{3}{Code and data artefacts submitted with the report. Every table and figure in this document is generated from the CSV/JSON files, not typed by hand}{table.caption.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Question 1: Bias audit of foundation models}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Research questions and pre-specified hypotheses}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Related work and novelty}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Positioning against prior bias-evaluation protocols.}}{4}{table.caption.2}\protected@file@percent }
+\newlabel{tab:related}{{2}{4}{Positioning against prior bias-evaluation protocols}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Design of the 20 audit items}{4}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Models, access and inference settings}{4}{subsection.2.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Models audited. Access: Hugging Face Hub, \texttt  {transformers} chat template, float16, \texttt  {device\_map="cuda"}. Inference: temperature 0.7, top-$p$ 0.9, top-$k$ 50, maximum 260 new tokens, no system prompt in the baseline, three seeds (1000--1002). Evaluation date: 30 October 2026.}}{5}{table.caption.3}\protected@file@percent }
+\newlabel{tab:models}{{3}{5}{Models audited. Access: Hugging Face Hub, \texttt {transformers} chat template, float16, \texttt {device\_map="cuda"}. Inference: temperature 0.7, top-$p$ 0.9, top-$k$ 50, maximum 260 new tokens, no system prompt in the baseline, three seeds (1000--1002). Evaluation date: 30 October 2026}{table.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Annotation pipeline}{5}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Statistical analysis}{5}{subsection.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Results}{6}{subsection.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Model-level disparity.}{6}{subsection.2.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Model-level audit summary. Disparity $z$ is the mean of the 20 item-level composite scores; mean $|\Delta s|$ is the mean absolute sentiment difference on the 0--1 probability scale; repeat consistency is the share of item--seed comparisons that agree in sign with the majority; refusal rate is the share of baseline responses that decline. ``Largest dimension'' is the dimension with the highest mean $z$ for that model.}}{6}{table.caption.4}\protected@file@percent }
+\newlabel{tab:q1models}{{4}{6}{Model-level audit summary. Disparity $z$ is the mean of the 20 item-level composite scores; mean $|\Delta s|$ is the mean absolute sentiment difference on the 0--1 probability scale; repeat consistency is the share of item--seed comparisons that agree in sign with the majority; refusal rate is the share of baseline responses that decline. ``Largest dimension'' is the dimension with the highest mean $z$ for that model}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Dimension structure.}{6}{figure.caption.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Signed sentiment is null; substance is not.}{6}{figure.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Directive hypotheses are often reversed.}{6}{figure.caption.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Composite disparity $z$ by dimension and model. Rows are the ten dimensions, columns the four models. Darker cells indicate larger normalised differences between the two counterfactual conditions. Language/code-switching and religious accommodation are the two hottest rows; socioeconomic status is dominated by the 1.5B model.}}{7}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:heatmap}{{1}{7}{Composite disparity $z$ by dimension and model. Rows are the ten dimensions, columns the four models. Darker cells indicate larger normalised differences between the two counterfactual conditions. Language/code-switching and religious accommodation are the two hottest rows; socioeconomic status is dominated by the 1.5B model}{figure.caption.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Mean composite disparity $z$ for each dimension and model. The final column is the unweighted mean over the four models. Values are computed from seed-averaged item-level deltas.}}{7}{table.caption.6}\protected@file@percent }
+\newlabel{tab:q1dims}{{5}{7}{Mean composite disparity $z$ for each dimension and model. The final column is the unweighted mean over the four models. Values are computed from seed-averaged item-level deltas}{table.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Item-level mean sentiment deltas with 95\% item-bootstrap confidence intervals. The intervals mostly straddle zero and the signs differ across items: pooled signed sentiment is not a useful bias statistic here. The absolute magnitudes, which enter the composite index, are non-zero.}}{8}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:forest}{{2}{8}{Item-level mean sentiment deltas with 95\% item-bootstrap confidence intervals. The intervals mostly straddle zero and the signs differ across items: pooled signed sentiment is not a useful bias statistic here. The absolute magnitudes, which enter the composite index, are non-zero}{figure.caption.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Directional hypothesis support. ``Supported'' counts items whose mean delta has the pre-specified sign; ``all three seeds'' additionally requires that sign in every seed. No significance threshold is applied here, so these counts are descriptive.}}{9}{table.caption.8}\protected@file@percent }
+\newlabel{tab:q1hyp}{{6}{9}{Directional hypothesis support. ``Supported'' counts items whose mean delta has the pre-specified sign; ``all three seeds'' additionally requires that sign in every seed. No significance threshold is applied here, so these counts are descriptive}{table.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Two views of the same audit. Sentiment differences are small and sign-inconsistent (left); length differences are larger and systematically favour one condition within an item (right), especially for L1/L2 (language) and S1 (school type).}}{9}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:two_views}{{3}{9}{Two views of the same audit. Sentiment differences are small and sign-inconsistent (left); length differences are larger and systematically favour one condition within an item (right), especially for L1/L2 (language) and S1 (school type)}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Qualitative evidence.}{9}{figure.caption.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Null results: stereotype lexicon and refusal.}{9}{figure.caption.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Refusal rates by model and dimension. Refusals are essentially absent (one response in 480, from the 1.5B model), so refusal-rate disparity is not a useful indicator for this prompt set. We report it as a null result rather than dropping it.}}{10}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:refusal}{{4}{10}{Refusal rates by model and dimension. Refusals are essentially absent (one response in 480, from the 1.5B model), so refusal-rate disparity is not a useful indicator for this prompt set. We report it as a null result rather than dropping it}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {paragraph}{Statistical significance.}{10}{figure.caption.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Mitigation experiments}{10}{subsection.2.8}\protected@file@percent }
+\citation{ganguli2023selfcorrection}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Mitigation results on the eight highest-disparity items. $p$ is a paired Wilcoxon test over the eight item-level composite scores (intervention vs.\ baseline); with $n=8$ the smallest attainable $p$ is 0.008. ``Words'' is the mean response length under the intervention.}}{11}{table.caption.11}\protected@file@percent }
+\newlabel{tab:q1mit}{{7}{11}{Mitigation results on the eight highest-disparity items. $p$ is a paired Wilcoxon test over the eight item-level composite scores (intervention vs.\ baseline); with $n=8$ the smallest attainable $p$ is 0.008. ``Words'' is the mean response length under the intervention}{table.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Disparity before and after the two interventions. Neither intervention produces a consistent reduction across models; the largest nominal improvement (Phi-3.5, I1, 0.718$\to $0.532) does not survive correction, and Mistral-7B becomes worse under I1.}}{11}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:mit}{{5}{11}{Disparity before and after the two interventions. Neither intervention produces a consistent reduction across models; the largest nominal improvement (Phi-3.5, I1, 0.718$\to $0.532) does not survive correction, and Mistral-7B becomes worse under I1}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.9}Threats to validity}{11}{subsection.2.9}\protected@file@percent }
+\newlabel{sec:q1limits}{{2.9}{11}{Threats to validity}{subsection.2.9}{}}
+\citation{mcmahan2017fedavg}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Question 2: Federated averaging versus centralized training}{12}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Setup}{12}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Partitions}{12}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Algorithm}{12}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Results}{12}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{IID: federation is almost free.}{12}{figure.caption.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Moderate heterogeneity: a small, stable cost.}{12}{figure.caption.14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Federated versus centralized results. ``Gap vs C.'' is centralized minus the method's final accuracy (positive means the federated model is worse). ``Rounds to 90\%'' is the first round reaching 90\% of that run's final accuracy. ``Client mean/std/min'' is the accuracy of the global model on the test examples whose labels a client owns. Communication is the total bytes transferred: model updates for FedAvg ($2\times $parameters$\times 4$ bytes$\times 5$ clients$\times 20$ rounds) and one upload of the raw training set for centralized training.}}{13}{table.caption.13}\protected@file@percent }
+\newlabel{tab:q2runs}{{8}{13}{Federated versus centralized results. ``Gap vs C.'' is centralized minus the method's final accuracy (positive means the federated model is worse). ``Rounds to 90\%'' is the first round reaching 90\% of that run's final accuracy. ``Client mean/std/min'' is the accuracy of the global model on the test examples whose labels a client owns. Communication is the total bytes transferred: model updates for FedAvg ($2\times $parameters$\times 4$ bytes$\times 5$ clients$\times 20$ rounds) and one upload of the raw training set for centralized training}{table.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Test accuracy per communication round. IID tracks centralized training almost exactly. Dirichlet($\alpha {=}0.1$) converges more slowly and to a lower plateau; the two-class label skew peaks early and then oscillates as clients pull the global model towards their own labels.}}{13}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:q2curves}{{6}{13}{Test accuracy per communication round. IID tracks centralized training almost exactly. Dirichlet($\alpha {=}0.1$) converges more slowly and to a lower plateau; the two-class label skew peaks early and then oscillates as clients pull the global model towards their own labels}{figure.caption.14}{}}
+\citation{zhu2019deep,shokri2017membership}
+\citation{bonawitz2019towards}
+\@writefile{toc}{\contentsline {paragraph}{Strong heterogeneity: slower and lower.}{14}{figure.caption.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Extreme label skew: the global model fails on some clients.}{14}{figure.caption.14}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Left: the global model's accuracy on the test examples whose labels each client owns. The two-class skew produces near-zero accuracy for one client while others remain above 0.9. Right: an example of the label imbalance induced by Dirichlet allocation.}}{14}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:q2client}{{7}{14}{Left: the global model's accuracy on the test examples whose labels each client owns. The two-class skew produces near-zero accuracy for one client while others remain above 0.9. Right: an example of the label imbalance induced by Dirichlet allocation}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{Communication.}{14}{figure.caption.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}What privacy claims can and cannot be made}{14}{subsection.3.5}\protected@file@percent }
+\citation{li2020fedprox}
+\citation{abadi2016dpsgd}
+\citation{mironov2017rdp}
+\citation{gopi2021prv}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Limitations}{15}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Question 3: Differentially private CNN training}{15}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}DP-SGD implementation}{15}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Privacy accounting}{15}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Utility and convergence}{15}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Noise dominates utility.}{15}{figure.caption.18}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces DP-SGD runs. $C$ is the clipping norm, $\sigma $ the noise multiplier, $\varepsilon _{\mathrm  {RDP}}$ and $\varepsilon _{\mathrm  {PRV}}$ the privacy budget at $\delta =10^{-5}$, ``clipped frac.'' the fraction of examples whose gradient exceeded $C$. The baseline is non-private. The three ablation rows use $C=1,\sigma =0.8$; the final row is the overfit baseline used only for the membership-inference experiment.}}{16}{table.caption.16}\protected@file@percent }
+\newlabel{tab:q3runs}{{9}{16}{DP-SGD runs. $C$ is the clipping norm, $\sigma $ the noise multiplier, $\eps _{\mathrm {RDP}}$ and $\eps _{\mathrm {PRV}}$ the privacy budget at $\delta =10^{-5}$, ``clipped frac.'' the fraction of examples whose gradient exceeded $C$. The baseline is non-private. The three ablation rows use $C=1,\sigma =0.8$; the final row is the overfit baseline used only for the membership-inference experiment}{table.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Test accuracy against the achieved privacy budget. Each point is one configuration; lower $\varepsilon $ means stronger privacy. The dashed and dotted lines are the two non-private baselines.}}{16}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:q3eps}{{8}{16}{Test accuracy against the achieved privacy budget. Each point is one configuration; lower $\eps $ means stronger privacy. The dashed and dotted lines are the two non-private baselines}{figure.caption.17}{}}
+\citation{shokri2017membership}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Test accuracy per epoch for every configuration. Noise slows convergence and lowers the plateau; the $C=5,\sigma =1.2$ run is the clearest example of noise-dominated training.}}{17}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:q3curves}{{9}{17}{Test accuracy per epoch for every configuration. Noise slows convergence and lowers the plateau; the $C=5,\sigma =1.2$ run is the clearest example of noise-dominated training}{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {paragraph}{Clipping: smaller is not always better.}{17}{figure.caption.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Training duration.}{17}{figure.caption.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Dataset size.}{17}{figure.caption.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Membership inference}{17}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Attacks.}{17}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Ablations at $C=1,\sigma =0.8$. Left: training duration, with the achieved $\varepsilon $ on the secondary axis. Right: dataset size. Both change utility and privacy at the same time, so they must be reported together.}}{18}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:q3abl}{{10}{18}{Ablations at $C=1,\sigma =0.8$. Left: training duration, with the achieved $\eps $ on the secondary axis. Right: dataset size. Both change utility and privacy at the same time, so they must be reported together}{figure.caption.19}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces Membership-inference results. AUC 0.5 is random guessing. The non-private baseline barely leaks; the deliberately overfit baseline leaks more, and every DP configuration returns to chance. TPR at 10\% FPR is close to 0.10 for all models.}}{18}{table.caption.20}\protected@file@percent }
+\newlabel{tab:q3mia}{{10}{18}{Membership-inference results. AUC 0.5 is random guessing. The non-private baseline barely leaks; the deliberately overfit baseline leaks more, and every DP configuration returns to chance. TPR at 10\% FPR is close to 0.10 for all models}{table.caption.20}{}}
+\@writefile{toc}{\contentsline {paragraph}{Results.}{18}{figure.caption.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{What the attack does not show.}{18}{figure.caption.21}\protected@file@percent }
+\bibstyle{plainnat}
+\bibdata{refs}
+\bibcite{abadi2016dpsgd}{{1}{2016}{{Abadi et~al.}}{{Abadi, Chu, Goodfellow, McMahan, Mironov, Talwar, and Zhang}}}
+\bibcite{bonawitz2019towards}{{2}{2019}{{Bonawitz et~al.}}{{Bonawitz, Eichner, Grieskamp, Huba, Ingerman, Ivanov, Kiddon, Kone{\v {c}}n{\'y}, Mazzocchi, McMahan, Van~Overveldt, Petrou, Ramage, and Roselander}}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Left: membership-inference ROC-AUC against $\varepsilon $ for the loss and shadow attacks, with the overfit non-private baseline as a dotted line. Right: shadow-attack advantage at 10\% FPR. The DP points sit on the 0.5 line; the non-private baselines sit above it.}}{19}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:q3mia}{{11}{19}{Left: membership-inference ROC-AUC against $\eps $ for the loss and shadow attacks, with the overfit non-private baseline as a dotted line. Right: shadow-attack advantage at 10\% FPR. The DP points sit on the 0.5 line; the non-private baselines sit above it}{figure.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Discussion}{19}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{19}{section.5}\protected@file@percent }
+\bibcite{dhamala2021bold}{{3}{2021}{{Dhamala et~al.}}{{Dhamala, Sun, Kumar, Krishna, Pruksachatkun, Chang, and Gupta}}}
+\bibcite{ganguli2023selfcorrection}{{4}{2023}{{Ganguli et~al.}}{{Ganguli, Askell, Schiefer, et~al.}}}
+\bibcite{gopi2021prv}{{5}{2021}{{Gopi et~al.}}{{Gopi, Lee, and Wutschitz}}}
+\bibcite{jha2023seegull}{{6}{2023}{{Jha et~al.}}{{Jha, Davani, Reddy, Prabhakaran, Dev, and Dave}}}
+\bibcite{khandelwal2023casteist}{{7}{2023}{{Khandelwal et~al.}}{{Khandelwal, Tonneau, Bean, Kirk, and Hale}}}
+\bibcite{li2020fedprox}{{8}{2020}{{Li et~al.}}{{Li, Sahu, Zaheer, Sanjabi, Talwalkar, and Smith}}}
+\bibcite{mcmahan2017fedavg}{{9}{2017}{{McMahan et~al.}}{{McMahan, Moore, Ramage, Hampson, and Ag{\"u}era~y Arcas}}}
+\bibcite{mironov2017rdp}{{10}{2017}{{Mironov}}{{}}}
+\bibcite{nadeem2021stereoset}{{11}{2021}{{Nadeem et~al.}}{{Nadeem, Bethke, and Reddy}}}
+\bibcite{nangia2020crowspairs}{{12}{2020}{{Nangia et~al.}}{{Nangia, Vania, Bhalerao, and Bowman}}}
+\bibcite{parrish2022bbq}{{13}{2022}{{Parrish et~al.}}{{Parrish, Chen, Nangia, Padmakumar, Phang, Thompson, Htut, and Bowman}}}
+\bibcite{shokri2017membership}{{14}{2017}{{Shokri et~al.}}{{Shokri, Stronati, Song, and Shmatikov}}}
+\bibcite{smith2022holisticbias}{{15}{2022}{{Smith et~al.}}{{Smith, Hall, Kambadur, Presani, and Williams}}}
+\bibcite{zhao2018winobias}{{16}{2018}{{Zhao et~al.}}{{Zhao, Wang, Yatskar, Ordonez, and Chang}}}
+\bibcite{zhu2019deep}{{17}{2019}{{Zhu et~al.}}{{Zhu, Liu, and Han}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Full prompt set}{22}{appendix.A}\protected@file@percent }
+\newlabel{app:prompts}{{A}{22}{Full prompt set}{appendix.A}{}}
+\gdef \LT@i {\LT@entry 
+    {1}{28.76228pt}\LT@entry 
+    {1}{105.89418pt}\LT@entry 
+    {1}{71.75095pt}\LT@entry 
+    {1}{222.55022pt}\LT@entry 
+    {1}{131.50148pt}\LT@entry 
+    {1}{125.50148pt}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces All 20 counterfactual audit items. \texttt  {\{attr\}} is replaced by the attribute value in columns A and B; every other token is identical across the pair. L1/L2 place the entire prompt in the variant because the attribute \emph  {is} the language; D1 variant B intentionally substitutes an empty string (no disability disclosure).}}{23}{table.11}\protected@file@percent }
+\newlabel{tab:prompts}{{11}{23}{All 20 counterfactual audit items. \texttt {\{attr\}} is replaced by the attribute value in columns A and B; every other token is identical across the pair. L1/L2 place the entire prompt in the variant because the attribute \emph {is} the language; D1 variant B intentionally substitutes an empty string (no disability disclosure)}{table.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}AI-assisted development log}{26}{appendix.B}\protected@file@percent }
+\newlabel{app:ai}{{B}{26}{AI-assisted development log}{appendix.B}{}}
+\@writefile{toc}{\contentsline {paragraph}{Tools and models.}{26}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Prompts used.}{26}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Verification.}{26}{Item.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C}Reproduction commands}{27}{appendix.C}\protected@file@percent }
+\newlabel{app:repro}{{C}{27}{Reproduction commands}{appendix.C}{}}
+\gdef \@abspage@last{28}

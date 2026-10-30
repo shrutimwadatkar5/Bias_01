@@ -1,0 +1,26 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,lscape,array}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{microtype}
+\usepackage[round]{natbib}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parskip}{2pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{document}
+\begin{landscape}
+\typeout{LINEWIDTH=\the\linewidth TEXTHEIGHT=\the\textheight}
+\footnotesize
+\input{tables/tab_prompts.tex}
+\end{landscape}
+\end{document}

@@ -1,0 +1,1054 @@
+{
+  "pooled_sd": {
+    "sentiment_mean": 0.21622142906081615,
+    "favourability": 0.68621441050065,
+    "specificity": 5.624608127372948,
+    "n_words": 42.5863075814727,
+    "stereotype_rate": 0.0,
+    "refusal": 0.04564354645876383,
+    "discouragement_rate": 0.21804426773225669
+  },
+  "models": {
+    "qwen2.5-7b": {
+      "sentiment_mean": {
+        "mean_delta": -0.0005292488837823045,
+        "ci95": [
+          -0.049298501370763755,
+          0.04688433516120841
+        ],
+        "median_delta": -0.0006801850379108039,
+        "p_raw": 0.8983173370361328,
+        "effect_r": 0.028574098705412866,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "favourability": {
+        "mean_delta": 0.05605756060310211,
+        "ci95": [
+          -0.04393104613806769,
+          0.25247554702780717
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.625,
+        "effect_r": 0.1629254703715565,
+        "n_items": 9,
+        "p_holm": 1.0
+      },
+      "specificity": {
+        "mean_delta": -0.4666098306955364,
+        "ci95": [
+          -1.3999220410907005,
+          0.3786549687458767
+        ],
+        "median_delta": -0.038411067449139025,
+        "p_raw": 0.47490501403808594,
+        "effect_r": 0.15977177493175362,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "n_words": {
+        "mean_delta": 4.616666666666667,
+        "ci95": [
+          -0.26666666666666666,
+          9.783333333333333
+        ],
+        "median_delta": 3.5,
+        "p_raw": 0.0457550656276566,
+        "effect_r": 0.4466871979036341,
+        "n_items": 20,
+        "p_holm": 0.5033057219042226
+      },
+      "stereotype_rate": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "refusal": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "discouragement_rate": {
+        "mean_delta": 0.03317945166127293,
+        "ci95": [
+          -0.03276919451945948,
+          0.10593475356982111
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.24886387493792206,
+        "effect_r": 0.25784397701617257,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "agency_rate": {
+        "mean_delta": -0.12209327354493468,
+        "ci95": [
+          -0.5367573625411637,
+          0.2958375502272702
+        ],
+        "median_delta": -0.19076304194583016,
+        "p_raw": 0.22732992995598733,
+        "effect_r": 0.2699527623995085,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "communal_rate": {
+        "mean_delta": -0.03886415966705818,
+        "ci95": [
+          -0.14386479578509176,
+          0.032478173571240755
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.4652088184521418,
+        "effect_r": 0.16329931618554516,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "accommodation_rate": {
+        "mean_delta": 0.11210091301303818,
+        "ci95": [
+          -0.08999819138304632,
+          0.327862458869603
+        ],
+        "median_delta": 0.020157717526138597,
+        "p_raw": 0.19298546891685997,
+        "effect_r": 0.2910908682137297,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "respect_rate": {
+        "mean_delta": 0.05100345838693774,
+        "ci95": [
+          -0.05144129043238748,
+          0.2220700885050438
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.28504940740261275,
+        "effect_r": 0.23904572186687867,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "mean_disparity_z": 0.2831089648935301,
+      "mean_abs_sentiment_delta": 0.07227524138990257,
+      "repeat_sign_consistency": 0.85
+    },
+    "mistral-7b": {
+      "sentiment_mean": {
+        "mean_delta": -0.01080680396049038,
+        "ci95": [
+          -0.06567774580804317,
+          0.045228393079501286
+        ],
+        "median_delta": -0.00015782770298041388,
+        "p_raw": 0.7011814117431641,
+        "effect_r": 0.08580378075130754,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "favourability": {
+        "mean_delta": -0.10472299843347327,
+        "ci95": [
+          -0.5456377581384196,
+          0.20246671901490426
+        ],
+        "median_delta": 0.0,
+        "p_raw": 1.0,
+        "effect_r": 0.0,
+        "n_items": 9,
+        "p_holm": 1.0
+      },
+      "specificity": {
+        "mean_delta": 0.06606915997300875,
+        "ci95": [
+          -0.6549633285343148,
+          0.7896524644974661
+        ],
+        "median_delta": -0.025743697726380264,
+        "p_raw": 0.9854354858398438,
+        "effect_r": 0.0040819253973075256,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "n_words": {
+        "mean_delta": 2.95,
+        "ci95": [
+          -3.5187499999999994,
+          10.116666666666667
+        ],
+        "median_delta": 2.0,
+        "p_raw": 0.3316807695178907,
+        "effect_r": 0.2170627152193266,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "stereotype_rate": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "refusal": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "discouragement_rate": {
+        "mean_delta": -0.04547538594304519,
+        "ci95": [
+          -0.15920267815984854,
+          0.06378175682161014
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.3742593192802244,
+        "effect_r": 0.1986798535597566,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "agency_rate": {
+        "mean_delta": 0.06632285554571903,
+        "ci95": [
+          -0.32305373672531146,
+          0.4169068724307577
+        ],
+        "median_delta": 0.17696683066964725,
+        "p_raw": 0.3143893322216611,
+        "effect_r": 0.22496063533292376,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "communal_rate": {
+        "mean_delta": -0.05283947648117519,
+        "ci95": [
+          -0.16985113877154187,
+          0.037577181754601854
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.22491588401596185,
+        "effect_r": 0.2713602101199873,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "accommodation_rate": {
+        "mean_delta": -0.13325925909383,
+        "ci95": [
+          -0.42156954190109747,
+          0.12651460608879136
+        ],
+        "median_delta": -0.053521040363145624,
+        "p_raw": 0.4631068149666542,
+        "effect_r": 0.16406939844773857,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "respect_rate": {
+        "mean_delta": 0.016049123598895345,
+        "ci95": [
+          -0.11126961516483885,
+          0.13838835791389184
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.6001794871405538,
+        "effect_r": 0.11720180773462387,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "mean_disparity_z": 0.34780789583279054,
+      "mean_abs_sentiment_delta": 0.07110426132183241,
+      "repeat_sign_consistency": 0.7499999999999998
+    },
+    "phi3.5-mini": {
+      "sentiment_mean": {
+        "mean_delta": 0.005271714583835935,
+        "ci95": [
+          -0.05238241147217523,
+          0.06621655407024304
+        ],
+        "median_delta": -0.008384435226225654,
+        "p_raw": 0.7285060882568359,
+        "effect_r": 0.07761692733639512,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "favourability": {
+        "mean_delta": -0.4230505067684094,
+        "ci95": [
+          -1.24947169560473,
+          0.018930357142857127
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.6875,
+        "effect_r": 0.12720263953681632,
+        "n_items": 10,
+        "p_holm": 1.0
+      },
+      "specificity": {
+        "mean_delta": 0.5458143918000756,
+        "ci95": [
+          -0.9253787764024877,
+          2.420644506919711
+        ],
+        "median_delta": 0.09669754132833781,
+        "p_raw": 0.9272785186767578,
+        "effect_r": 0.020408461944004995,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "n_words": {
+        "mean_delta": 6.6833333333333345,
+        "ci95": [
+          -4.7004166666666665,
+          20.08374999999999
+        ],
+        "median_delta": -0.6666666666666666,
+        "p_raw": 0.9851007946316185,
+        "effect_r": 0.004175738453296614,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "stereotype_rate": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "refusal": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "discouragement_rate": {
+        "mean_delta": -0.022871820235608225,
+        "ci95": [
+          -0.11212822990575029,
+          0.03655088425288574
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.5929800980174267,
+        "effect_r": 0.11952286093343939,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "agency_rate": {
+        "mean_delta": -0.061312932500098435,
+        "ci95": [
+          -0.4388146590176317,
+          0.2819209007279605
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.9433920568226559,
+        "effect_r": 0.015877683720748895,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "communal_rate": {
+        "mean_delta": 0.006683848279074078,
+        "ci95": [
+          -0.08800373691339783,
+          0.1014074838399734
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.779434528427275,
+        "effect_r": 0.06262242910851494,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "accommodation_rate": {
+        "mean_delta": -0.07991474146194652,
+        "ci95": [
+          -0.4909704294533077,
+          0.274691014506212
+        ],
+        "median_delta": -0.09225232473535432,
+        "p_raw": 0.9854354858398438,
+        "effect_r": 0.0040819253973075256,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "respect_rate": {
+        "mean_delta": -0.02508287844165249,
+        "ci95": [
+          -0.1310012538011663,
+          0.03643341836635428
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.06788915486182899,
+        "effect_r": 0.40824829046386313,
+        "n_items": 20,
+        "p_holm": 0.7467807034801189
+      },
+      "mean_disparity_z": 0.4050567357863491,
+      "mean_abs_sentiment_delta": 0.08513409252380486,
+      "repeat_sign_consistency": 0.7999999999999999
+    },
+    "qwen2.5-1.5b": {
+      "sentiment_mean": {
+        "mean_delta": 0.02593170591658217,
+        "ci95": [
+          -0.03528327844587407,
+          0.08579724509823666
+        ],
+        "median_delta": 0.026905619841564532,
+        "p_raw": 0.2942523956298828,
+        "effect_r": 0.23452744699356565,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "favourability": {
+        "mean_delta": -0.08463887486581162,
+        "ci95": [
+          -0.38262167009941583,
+          0.13231852993485407
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.125,
+        "effect_r": 0.5113735147841821,
+        "n_items": 9,
+        "p_holm": 1.0
+      },
+      "specificity": {
+        "mean_delta": 0.2806764311159661,
+        "ci95": [
+          -1.09068172230999,
+          1.6945055261803834
+        ],
+        "median_delta": 0.07392891117209306,
+        "p_raw": 0.8408222198486328,
+        "effect_r": 0.04490960813463677,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "n_words": {
+        "mean_delta": 1.433333333333333,
+        "ci95": [
+          -10.017083333333334,
+          12.983333333333333
+        ],
+        "median_delta": -0.16666666666666666,
+        "p_raw": 0.9256271491017656,
+        "effect_r": 0.0208732335468988,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "stereotype_rate": {
+        "mean_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": NaN,
+        "effect_r": NaN,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "refusal": {
+        "mean_delta": -0.016666666666666666,
+        "ci95": [
+          -0.06666666666666667,
+          0.0
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.31731050786291415,
+        "effect_r": 0.22360679774997896,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "discouragement_rate": {
+        "mean_delta": -0.04087915908090213,
+        "ci95": [
+          -0.1377356622967571,
+          0.05334583937983214
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.40081416938293446,
+        "effect_r": 0.18786728732554484,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "agency_rate": {
+        "mean_delta": 0.24015678926252454,
+        "ci95": [
+          -0.14672164495568793,
+          0.6379111624310884
+        ],
+        "median_delta": 0.19159619450317128,
+        "p_raw": 0.09099512294672399,
+        "effect_r": 0.37793386735931195,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "communal_rate": {
+        "mean_delta": 0.035427215678364286,
+        "ci95": [
+          -0.03836686007345591,
+          0.13040170444658902
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.13801073756865956,
+        "effect_r": 0.33166247903554,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "accommodation_rate": {
+        "mean_delta": -0.06631607129897457,
+        "ci95": [
+          -0.3477736022705067,
+          0.21702614576955734
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.5349252131384397,
+        "effect_r": 0.13874918701886407,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "respect_rate": {
+        "mean_delta": -0.0006330189550413631,
+        "ci95": [
+          -0.07224706557373912,
+          0.09826467548329948
+        ],
+        "median_delta": 0.0,
+        "p_raw": 0.916511907863894,
+        "effect_r": 0.02344036154692478,
+        "n_items": 20,
+        "p_holm": 1.0
+      },
+      "mean_disparity_z": 0.5172152644877066,
+      "mean_abs_sentiment_delta": 0.09269976982763929,
+      "repeat_sign_consistency": 0.7499999999999999
+    }
+  },
+  "dimensions": {
+    "qwen2.5-7b": {
+      "Age": {
+        "mean_sentiment_delta": 0.05465265915517887,
+        "ci95": [
+          -0.0420945815671771,
+          0.18279250330488392
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.3006172943692271
+      },
+      "Caste and religion signalling (India)": {
+        "mean_sentiment_delta": -0.009861770518269343,
+        "ci95": [
+          -0.21449479962272258,
+          0.13442230074164963
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.10955896195139281
+      },
+      "Cultural assumptions": {
+        "mean_sentiment_delta": 0.12235822195855946,
+        "ci95": [
+          0.02424638369051002,
+          0.21798254994480593
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.27016723867208203
+      },
+      "Disability representation": {
+        "mean_sentiment_delta": -0.0034125681894160015,
+        "ci95": [
+          -0.16511879992845627,
+          0.16668577506553073
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.1938103586136271
+      },
+      "Gender and professional roles": {
+        "mean_sentiment_delta": -0.0006801850379108039,
+        "ci95": [
+          -0.16703118592300184,
+          0.16635444349473502
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.14132033889336573
+      },
+      "Language and code-switching": {
+        "mean_sentiment_delta": -0.016451479980948064,
+        "ci95": [
+          -0.039109293907574255,
+          0.009897931425137414
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.5866328987214471
+      },
+      "Nationality and migration": {
+        "mean_sentiment_delta": -0.08795335763669081,
+        "ci95": [
+          -0.17797047554586506,
+          -0.03144269134435398
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.34659656732253974
+      },
+      "Regional representation (Global South)": {
+        "mean_sentiment_delta": -0.011516227088103292,
+        "ci95": [
+          -0.07500654328902627,
+          0.056555485055180266
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.3439301384824238
+      },
+      "Religious accommodation": {
+        "mean_sentiment_delta": -0.010976531085881126,
+        "ci95": [
+          -0.20499175804804518,
+          0.14199042385250019
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.3698861930788765
+      },
+      "Socioeconomic status": {
+        "mean_sentiment_delta": -0.041451250414341945,
+        "ci95": [
+          -0.14092522163538831,
+          0.049628654284877505
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.1685696588303194
+      }
+    },
+    "mistral-7b": {
+      "Age": {
+        "mean_sentiment_delta": -0.09908195737687667,
+        "ci95": [
+          -0.17737102715054606,
+          -0.019768390699872906
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.25665109437253175
+      },
+      "Caste and religion signalling (India)": {
+        "mean_sentiment_delta": 0.042750030486423,
+        "ci95": [
+          -0.22657638524348536,
+          0.28721373216904617
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.39616308842704806
+      },
+      "Cultural assumptions": {
+        "mean_sentiment_delta": 0.00774459041969805,
+        "ci95": [
+          -0.023385806712706236,
+          0.049107058799762016
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.25486070775238984
+      },
+      "Disability representation": {
+        "mean_sentiment_delta": -0.054330985892384484,
+        "ci95": [
+          -0.1549280957227835,
+          0.051191837684272636
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.3302448625285944
+      },
+      "Gender and professional roles": {
+        "mean_sentiment_delta": -0.012261069165753313,
+        "ci95": [
+          -0.09966059091966606,
+          0.062140040238591175
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.11774170012297751
+      },
+      "Language and code-switching": {
+        "mean_sentiment_delta": -0.18614789940265952,
+        "ci95": [
+          -0.3920080163253566,
+          0.0035945745050407255
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.5064523370632694
+      },
+      "Nationality and migration": {
+        "mean_sentiment_delta": 7.025492567976988e-05,
+        "ci95": [
+          -0.03331090821989834,
+          0.027445634247508715
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.22147302318478765
+      },
+      "Regional representation (Global South)": {
+        "mean_sentiment_delta": 0.04365167343419418,
+        "ci95": [
+          -0.0006467151263404025,
+          0.13772585434226423
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.2901137894959696
+      },
+      "Religious accommodation": {
+        "mean_sentiment_delta": 0.09546689340014224,
+        "ci95": [
+          -0.06757653237187437,
+          0.33550179993403173
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.7918723617040966
+      },
+      "Socioeconomic status": {
+        "mean_sentiment_delta": 0.05407042956663303,
+        "ci95": [
+          -0.033757273848395906,
+          0.16397405108695648
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.31250599367624043
+      }
+    },
+    "phi3.5-mini": {
+      "Age": {
+        "mean_sentiment_delta": -0.05993117085579424,
+        "ci95": [
+          -0.21457549755085084,
+          0.06551556616318029
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.2890198718820768
+      },
+      "Caste and religion signalling (India)": {
+        "mean_sentiment_delta": -0.03448762213719656,
+        "ci95": [
+          -0.2412787662116224,
+          0.16404732461329935
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.3598227702030841
+      },
+      "Cultural assumptions": {
+        "mean_sentiment_delta": -0.06892469117637211,
+        "ci95": [
+          -0.14827808044436908,
+          0.016368012368340918
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.4150673566003671
+      },
+      "Disability representation": {
+        "mean_sentiment_delta": 0.07901482837773863,
+        "ci95": [
+          -0.040774507717126006,
+          0.25521931364504924
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.16005119331732326
+      },
+      "Gender and professional roles": {
+        "mean_sentiment_delta": -0.017961410976907122,
+        "ci95": [
+          -0.06877159419943933,
+          0.0268103010334478
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.18687627918261823
+      },
+      "Language and code-switching": {
+        "mean_sentiment_delta": 0.26393285065565014,
+        "ci95": [
+          0.15823947584251827,
+          0.35833873229091234
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.7940312060839447
+      },
+      "Nationality and migration": {
+        "mean_sentiment_delta": -0.0212230498977787,
+        "ci95": [
+          -0.13658185445716486,
+          0.06374523037970763
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.643619158130087
+      },
+      "Regional representation (Global South)": {
+        "mean_sentiment_delta": -0.003631974641399897,
+        "ci95": [
+          -0.021393746859394037,
+          0.012527574823153247
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.19722972378612158
+      },
+      "Religious accommodation": {
+        "mean_sentiment_delta": -0.10324042842215736,
+        "ci95": [
+          -0.26289694902087096,
+          0.09482260792893138
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.8283919346625785
+      },
+      "Socioeconomic status": {
+        "mean_sentiment_delta": 0.019169814912576556,
+        "ci95": [
+          -0.12214322023546927,
+          0.1117642141029484
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.17645786401528912
+      }
+    },
+    "qwen2.5-1.5b": {
+      "Age": {
+        "mean_sentiment_delta": -0.02504508563620142,
+        "ci95": [
+          -0.400797088989973,
+          0.22697333021591773
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.5024675161280401
+      },
+      "Caste and religion signalling (India)": {
+        "mean_sentiment_delta": -0.03693921930150746,
+        "ci95": [
+          -0.24210441656929715,
+          0.17092488360140226
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.6993835954836849
+      },
+      "Cultural assumptions": {
+        "mean_sentiment_delta": -0.01604293994776564,
+        "ci95": [
+          -0.10751573215488838,
+          0.09719759506889812
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.4871685530191188
+      },
+      "Disability representation": {
+        "mean_sentiment_delta": 0.11327276778703932,
+        "ci95": [
+          -0.03576874709124291,
+          0.267012656008894
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.5321702142617976
+      },
+      "Gender and professional roles": {
+        "mean_sentiment_delta": -0.05617485288142536,
+        "ci95": [
+          -0.1692937322465393,
+          0.0006793762743472928
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.20379064814531622
+      },
+      "Language and code-switching": {
+        "mean_sentiment_delta": 0.030890189530156497,
+        "ci95": [
+          -0.06245186127412139,
+          0.16217786740416248
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.4263115226418882
+      },
+      "Nationality and migration": {
+        "mean_sentiment_delta": 0.07936253715263261,
+        "ci95": [
+          -0.04767156984423296,
+          0.29305641968173646
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.4438151371117231
+      },
+      "Regional representation (Global South)": {
+        "mean_sentiment_delta": 0.004969479880374588,
+        "ci95": [
+          -0.09386370507357428,
+          0.08099731783729307
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.28047160991188486
+      },
+      "Religious accommodation": {
+        "mean_sentiment_delta": 0.05782041108457002,
+        "ci95": [
+          -0.07088005934011592,
+          0.20191410589258244
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 0.4171455544960918
+      },
+      "Socioeconomic status": {
+        "mean_sentiment_delta": 0.10720377149794852,
+        "ci95": [
+          -0.04075729474512165,
+          0.24075659942910635
+        ],
+        "n_items": 2,
+        "mean_disparity_z": 1.1794282936775193
+      }
+    }
+  },
+  "model_comparison": {
+    "friedman": {
+      "stat": 7.019999999999982,
+      "p": 0.07126302913441515,
+      "models": [
+        "qwen2.5-7b",
+        "mistral-7b",
+        "phi3.5-mini",
+        "qwen2.5-1.5b"
+      ],
+      "n_items": 20
+    },
+    "pairwise": [
+      {
+        "model_1": "qwen2.5-7b",
+        "model_2": "mistral-7b",
+        "median_diff": -0.0119544965813176,
+        "p_raw": 0.40909767150878906,
+        "p_holm": 1.0
+      },
+      {
+        "model_1": "qwen2.5-7b",
+        "model_2": "phi3.5-mini",
+        "median_diff": -0.013145023995294346,
+        "p_raw": 0.10539817810058594,
+        "p_holm": 0.42159271240234375
+      },
+      {
+        "model_1": "qwen2.5-7b",
+        "model_2": "qwen2.5-1.5b",
+        "median_diff": -0.16378098633712918,
+        "p_raw": 0.029575347900390625,
+        "p_holm": 0.17745208740234375
+      },
+      {
+        "model_1": "mistral-7b",
+        "model_2": "phi3.5-mini",
+        "median_diff": 0.010906602607005572,
+        "p_raw": 1.0,
+        "p_holm": 1.0
+      },
+      {
+        "model_1": "mistral-7b",
+        "model_2": "qwen2.5-1.5b",
+        "median_diff": -0.18613806290903118,
+        "p_raw": 0.069580078125,
+        "p_holm": 0.347900390625
+      },
+      {
+        "model_1": "phi3.5-mini",
+        "model_2": "qwen2.5-1.5b",
+        "median_diff": -0.19287615516571768,
+        "p_raw": 0.34881019592285156,
+        "p_holm": 1.0
+      }
+    ]
+  },
+  "hypothesis_support": {
+    "mistral-7b": {
+      "supported": 7,
+      "n": 20,
+      "supported_consistently": 1
+    },
+    "phi3.5-mini": {
+      "supported": 7,
+      "n": 20,
+      "supported_consistently": 4
+    },
+    "qwen2.5-1.5b": {
+      "supported": 7,
+      "n": 20,
+      "supported_consistently": 1
+    },
+    "qwen2.5-7b": {
+      "supported": 7,
+      "n": 20,
+      "supported_consistently": 2
+    }
+  },
+  "mitigation": [
+    {
+      "intervention": "I1_fair_system_prompt",
+      "model": "qwen2.5-7b",
+      "baseline_disparity": 0.38010788291255987,
+      "intervention_disparity": 0.3745283516386747,
+      "p_vs_baseline": 0.9453125
+    },
+    {
+      "intervention": "I1_fair_system_prompt",
+      "model": "mistral-7b",
+      "baseline_disparity": 0.4990584254444828,
+      "intervention_disparity": 0.6765179016040611,
+      "p_vs_baseline": 0.3125
+    },
+    {
+      "intervention": "I1_fair_system_prompt",
+      "model": "phi3.5-mini",
+      "baseline_disparity": 0.7178404849097418,
+      "intervention_disparity": 0.5323000675857961,
+      "p_vs_baseline": 0.078125
+    },
+    {
+      "intervention": "I2_self_audit_rewrite",
+      "model": "qwen2.5-7b",
+      "baseline_disparity": 0.38010788291255987,
+      "intervention_disparity": 0.4894019413582886,
+      "p_vs_baseline": 0.4609375
+    },
+    {
+      "intervention": "I2_self_audit_rewrite",
+      "model": "mistral-7b",
+      "baseline_disparity": 0.4990584254444828,
+      "intervention_disparity": 0.4207741477700083,
+      "p_vs_baseline": 0.546875
+    },
+    {
+      "intervention": "I2_self_audit_rewrite",
+      "model": "phi3.5-mini",
+      "baseline_disparity": 0.7178404849097418,
+      "intervention_disparity": 0.44436928343697735,
+      "p_vs_baseline": 0.25
+    }
+  ]
+}
